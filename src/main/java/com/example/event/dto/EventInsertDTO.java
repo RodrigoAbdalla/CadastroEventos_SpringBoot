@@ -5,8 +5,7 @@ import java.time.LocalTime;
 
 import com.example.event.entities.Event;
 
-public class EventDTO {
-    private Long id;
+public class EventInsertDTO {
     private String name;
     private String description;
     private String place;
@@ -14,13 +13,12 @@ public class EventDTO {
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
+    private String emailContact;
     
-    
-    public EventDTO() {
+    public EventInsertDTO() {
 	}
 
-    public EventDTO(Long id, String name, String description, String place, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
-        setId(id);
+    public EventInsertDTO(Long id, String name, String description, String place, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String emailContact) {
         setName(name);
         setPlace(place);
         setDescription(description);
@@ -28,10 +26,10 @@ public class EventDTO {
         setEndDate(endDate);
         setStartTime(startTime);
         setEndTime(endTime);
+        setEmailContact(emailContact);
 	}
 
-    public EventDTO(Event event) {
-        setId(event.getId());
+    public EventInsertDTO(Event event) {
         setName(event.getName());
         setPlace(event.getPlace());
         setDescription(event.getDescription());
@@ -39,6 +37,7 @@ public class EventDTO {
         setEndDate(event.getEndDate());
         setStartTime(event.getStartTime());
         setEndTime(event.getEndTime());
+        setEmailContact(event.getEmailContact());
     }
 
     public String getName() {
@@ -92,13 +91,14 @@ public class EventDTO {
         this.endTime = endTime;
     }
 
-    public Long getId() {
-        return id;
+    public String getEmailContact() {
+        return emailContact;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEmailContact(String emailContact) {
+        this.emailContact = emailContact;
     }
+
     
 
 }

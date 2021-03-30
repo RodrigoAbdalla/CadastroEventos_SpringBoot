@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.event.dto.EventDTO;
+import com.example.event.dto.EventInsertDTO;
 import com.example.event.entities.Event;
 import com.example.event.repositories.EventRepository;
 
@@ -29,6 +30,12 @@ public class EventService {
         Optional<Event> op = repo.findById(id);
         Event event = op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
         return new EventDTO(event);
+    }
+
+    public EventDTO insert(EventInsertDTO insertDTO) {
+        Event entity = new Event(insertDTO);
+        entity = repo.save(entity);
+        return new EventDTO(entity);
     }
 
     private List<EventDTO> toDTOList(List<Event> list) {
