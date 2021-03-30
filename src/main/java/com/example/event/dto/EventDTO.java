@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import com.example.event.entities.Event;
 
 public class EventDTO {
+    private Long id;
     private String name;
     private String description;
     private String place;
@@ -17,7 +18,8 @@ public class EventDTO {
     public EventDTO() {
 	}
 
-    public EventDTO(String name, String description, String place, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+    public EventDTO(Long id, String name, String description, String place, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        setId(id);
         setName(name);
         setPlace(place);
         setDescription(description);
@@ -28,6 +30,7 @@ public class EventDTO {
 	}
 
     public EventDTO(Event event) {
+        setId(event.getId());
         setName(event.getName());
         setPlace(event.getPlace());
         setDescription(event.getDescription());
@@ -86,6 +89,14 @@ public class EventDTO {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
 

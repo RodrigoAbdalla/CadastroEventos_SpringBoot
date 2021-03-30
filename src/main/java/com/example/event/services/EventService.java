@@ -11,6 +11,9 @@ import com.example.event.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 @Service
 public class EventService {
 
@@ -32,7 +35,7 @@ public class EventService {
         List<EventDTO> listDTO = new ArrayList<>();
 
         for (Event e : list) {
-            listDTO.add(new EventDTO(e.getName(), e.getDescription(), e.getPlace(), e.getStartDate(), e.getEndDate(),
+            listDTO.add(new EventDTO(e.getId(), e.getName(), e.getDescription(), e.getPlace(), e.getStartDate(), e.getEndDate(),
                     e.getStartTime(), e.getEndTime()));
         }
         return listDTO;
