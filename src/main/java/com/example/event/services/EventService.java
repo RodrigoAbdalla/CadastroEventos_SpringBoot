@@ -10,6 +10,7 @@ import com.example.event.entities.Event;
 import com.example.event.repositories.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,15 @@ public class EventService {
                     e.getStartTime(), e.getEndTime()));
         }
         return listDTO;
+    }
+
+    public void delete(Long id) {
+        try {
+            repo.deleteById(id);
+        } 
+        catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+        }
     }
 
 }
