@@ -14,6 +14,8 @@ import com.example.event.repositories.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.http.HttpStatus;
@@ -25,14 +27,17 @@ public class EventService {
     @Autowired
     private EventRepository repo;
 
-    public List<com.example.event.dto.EventDTO> getEvents() {
-        List<Event> list = repo.findAll();
-        return toDTOList(list);
+    public Page<EventDTO> getEvents(PageRequest pageRequest) {
+        
+        Page<Event> list = repo.find(pageRequest);
+
+        return list.map( e -> new EventDTO(e));
     }
+
 
     public EventDTO getEventById(Long id) {
         Optional<Event> op = repo.findById(id);
-        Event event = op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
+        Event event = op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
         return new EventDTO(event);
     }
 
@@ -40,16 +45,6 @@ public class EventService {
         Event entity = new Event(insertDTO);
         entity = repo.save(entity);
         return new EventDTO(entity);
-    }
-
-    private List<EventDTO> toDTOList(List<Event> list) {
-        List<EventDTO> listDTO = new ArrayList<>();
-
-        for (Event e : list) {
-            listDTO.add(new EventDTO(e.getId(), e.getName(), e.getDescription(), e.getPlace(), e.getStartDate(), e.getEndDate(),
-                    e.getStartTime(), e.getEndTime()));
-        }
-        return listDTO;
     }
 
     public void delete(Long id) {
