@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
+import com.example.event.dto.EventUpdateDTO;
 import com.example.event.entities.Event;
 import com.example.event.repositories.EventRepository;
 
@@ -54,6 +57,24 @@ public class EventService {
             repo.deleteById(id);
         } 
         catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+        }
+    }
+
+    public EventDTO update(Long id, EventUpdateDTO updateDTO) {
+        try {
+            Event entity = repo.getOne(id);
+            entity.setName(updateDTO.getName());
+            entity.setDescription(updateDTO.getDescription());
+            entity.setPlace(updateDTO.getPlace());
+            entity.setStartDate(updateDTO.getStartDate());
+            entity.setEndDate(updateDTO.getEndDate());
+            entity.setStartTime(updateDTO.getStartTime());
+            entity.setEndTime(updateDTO.getEndTime());
+            entity = repo.save(entity);
+            return new EventDTO(entity);
+        } 
+        catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
         }
     }
