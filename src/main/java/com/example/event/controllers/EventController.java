@@ -1,6 +1,7 @@
 package com.example.event.controllers;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
@@ -39,12 +40,19 @@ public class EventController {
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,
         @RequestParam(value = "name",         defaultValue = "") String name,
         @RequestParam(value = "place",      defaultValue = "") String place,
-        @RequestParam(value = "description",      defaultValue = "") String description
+        @RequestParam(value = "description",      defaultValue = "") String description,        
+        @RequestParam(value = "startDate",      defaultValue = "0000-01-01") String  startDateString       // FORMATO ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd 
     ){
+        if(startDateString.contains("/")){                                  // Logica para trocar os caracteres incorretos, caso nao seja "-"
+            startDateString = startDateString.replace("/", "-");
+        }
+        else if(startDateString.contains(".")){
+            startDateString = startDateString.replace(".", "-");
+        }
 
+        LocalDate startDate = LocalDate.parse(startDateString.trim());          // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE    
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
-        
-        Page <EventDTO> list = service.getEvents(pageRequest, name.trim(), place.trim(), description.trim());
+        Page <EventDTO> list = service.getEvents(pageRequest, name.trim(), place.trim(), description.trim(), startDate);
         
         return ResponseEntity.ok().body(list);
     }

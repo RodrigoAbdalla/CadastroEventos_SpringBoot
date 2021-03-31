@@ -1,5 +1,6 @@
 package com.example.event.services;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,9 +26,9 @@ public class EventService {
     @Autowired
     private EventRepository repo;
 
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String place, String description) {
+    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String place, String description, LocalDate  startDate) {
         
-        Page<Event> list = repo.find(pageRequest, name, place, description);
+        Page<Event> list = repo.find(pageRequest, name, place, description, startDate);
 
         return list.map( e -> new EventDTO(e));
     }

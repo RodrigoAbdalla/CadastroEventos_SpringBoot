@@ -1,5 +1,7 @@
 package com.example.event.repositories;
 
+import java.time.LocalDate;
+
 import com.example.event.entities.Event;
 
 import org.springframework.data.domain.Page;
@@ -14,8 +16,10 @@ public interface EventRepository extends JpaRepository <Event,Long> {
            "WHERE " +
            "LOWER(e.name)     LIKE   LOWER(CONCAT('%', :name, '%')) AND " +
            "LOWER(e.place)  LIKE   LOWER(CONCAT('%', :place, '%'))  AND " +
-           "LOWER(e.description)  LIKE   LOWER(CONCAT('%', :description, '%'))      "
+           "LOWER(e.description)  LIKE   LOWER(CONCAT('%', :description, '%'))   AND   "    +
+           "e.startDate  > :startDate  "
     )
-    public Page<Event> find(Pageable pageRequest, String name, String place, String description);
+    public Page<Event> find(Pageable pageRequest, String name, String place, String description, LocalDate startDate);
+    
     
 }
