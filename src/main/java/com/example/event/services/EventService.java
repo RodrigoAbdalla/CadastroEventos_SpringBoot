@@ -27,6 +27,9 @@ public class EventService {
     private EventRepository repo;
 
     public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String place, String description, String  startDateString) {
+
+
+
                                                                              // FORMATO DE DATA ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd 
         if(startDateString.contains("/")){                                  // Logica para trocar os caracteres incorretos, caso nao seja "-"
             startDateString = startDateString.replace("/", "-");
@@ -34,10 +37,18 @@ public class EventService {
         else if(startDateString.contains(".")){
             startDateString = startDateString.replace(".", "-");
         }
-        LocalDate startDate = LocalDate.parse(startDateString.trim());          // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE   
-        Page<Event> list = repo.find(pageRequest, name, place, description, startDate);
+        try{                                                                        // Mapeando o erro para caso o usuario tente colocar uma data nom formato errado
+            LocalDate startDate = LocalDate.parse(startDateString.trim());          // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE 
+            Page<Event> list = repo.find(pageRequest, name, place, description, startDate);     
+            return list.map( e -> new EventDTO(e));
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Error trying to Convert to DataType. Please note that Data Format is yyyy/mm/dd");
+        }
+         
+        
 
-        return list.map( e -> new EventDTO(e));
+        
     }
 
 
