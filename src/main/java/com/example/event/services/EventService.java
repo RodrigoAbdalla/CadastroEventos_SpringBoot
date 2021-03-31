@@ -26,8 +26,15 @@ public class EventService {
     @Autowired
     private EventRepository repo;
 
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String place, String description, LocalDate  startDate) {
-        
+    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String place, String description, String  startDateString) {
+                                                                             // FORMATO DE DATA ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd 
+        if(startDateString.contains("/")){                                  // Logica para trocar os caracteres incorretos, caso nao seja "-"
+            startDateString = startDateString.replace("/", "-");
+        }
+        else if(startDateString.contains(".")){
+            startDateString = startDateString.replace(".", "-");
+        }
+        LocalDate startDate = LocalDate.parse(startDateString.trim());          // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE   
         Page<Event> list = repo.find(pageRequest, name, place, description, startDate);
 
         return list.map( e -> new EventDTO(e));
@@ -41,6 +48,28 @@ public class EventService {
     }
 
     public EventDTO insert(EventInsertDTO insertDTO) {
+        if( 
+            insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
+            insertDTO.getDescription()  == ""    || 
+            insertDTO.getPlace()        == ""    || 
+            insertDTO.getName()         == null  || 
+            insertDTO.getDescription()  == null  || 
+            insertDTO.getPlace()        == null  ||
+            insertDTO.getStartDate()    == null  ||
+            insertDTO.getEndDate()      == null  ||
+            insertDTO.getStartTime()    == null  ||
+            insertDTO.getEndTime()      == null 
+        ){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
+        }
+        else if(
+            insertDTO.getStartDate().isAfter(insertDTO.getEndDate()) ||         // Logica para nao aceitar que a data final seja maior que a data inicial
+                ((insertDTO.getStartDate().isEqual(insertDTO.getEndDate())) 
+                && 
+                (insertDTO.getStartTime().isAfter(insertDTO.getEndTime())))
+            ){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An event cannot start after the end");
+        }
         Event entity = new Event(insertDTO);
         entity = repo.save(entity);
         return new EventDTO(entity);
