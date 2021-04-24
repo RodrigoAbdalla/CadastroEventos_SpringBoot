@@ -1,29 +1,29 @@
 package com.example.event.dto;
 
-import com.example.event.entities.Attendee;
+import com.example.event.entities.Admin;
 
-public class AttendeeDTO {
+public class AdminDTO {
     private Long id;
     private String name;
     private String email;
-    private Double balance;
+    private String phoneNumber;
 
 
-    public AttendeeDTO() {
+    public AdminDTO() {
 	}
 
-    public AttendeeDTO(Long id, String name, String email, Double balance) {
+    public AdminDTO(Long id, String name, String email, String phoneNumber) {
         setId(id);
         setName(name);
         setEmail(email);
-        setBalance(balance);
+        setPhoneNumber(phoneNumber);
 	}
 
-    public AttendeeDTO(Attendee attendee) {
-        setId(attendee.getId());
-        setName(attendee.getName());
-        setEmail(attendee.getEmail());
-        setBalance(attendee.getBalance());
+    public AdminDTO(Admin admin) {
+        setId(admin.getId());
+        setName(admin.getName());
+        setEmail(admin.getEmail());
+        setPhoneNumber(admin.getPhoneNumber());
     }
 
     public String getName() {
@@ -44,11 +44,11 @@ public class AttendeeDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Double getBalance() {
-        return balance;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }

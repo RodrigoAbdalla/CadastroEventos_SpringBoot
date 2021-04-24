@@ -17,10 +17,10 @@ public class AttendeeUpdateDTO {
         setBalance(balance);
 	}
 
-    public AttendeeUpdateDTO(Attendee event) {
-        setName(event.getName());
-        setEmail(event.getEmail());
-        setBalance(event.getBalance());
+    public AttendeeUpdateDTO(Attendee attendee) {
+        setName(attendee.getName());
+        setEmail(attendee.getEmail());
+        setBalance(attendee.getBalance());
     }
 
     public String getName() {
