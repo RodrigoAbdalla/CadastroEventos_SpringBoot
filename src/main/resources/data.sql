@@ -10,3 +10,5 @@ INSERT INTO TBL_EVENT (name, description, PLACE, EMAIL_CONTACT, START_DATE, STAR
 INSERT INTO TBL_EVENT (name, description, PLACE, EMAIL_CONTACT, START_DATE, START_TIME, END_DATE, END_TIME) VALUES ('10Libertadores', 'Campeonato Sul-Americano', 'America do Sul', 'conmebol@outlook.com', '2020-2-1', '14:31:50','2021-2-2', '06:30:50');
 INSERT INTO TBL_EVENT (name, description, PLACE, EMAIL_CONTACT, START_DATE, START_TIME, END_DATE, END_TIME) VALUES ('11Paulistao', 'Campeonato Paulista', 'Estado de Sao Paulo', 'fpf@outlook.com', '2021-2-15', '20:30:50','2021-7-2', '19:30:50');
 INSERT INTO TBL_EVENT (name, description, PLACE, EMAIL_CONTACT, START_DATE, START_TIME, END_DATE, END_TIME) VALUES ('12Copa Do Mundo', 'Campeonato mais aguardado do ano! Selecoes se encontram e jogam o melhor futebol!', 'Japão', 'fifa@outlook.com', '2022-6-1', '20:30:50','2022-11-2', '21:30:50');
+INSERT INTO TBL_PLACES (name, adress) VALUES ('Morumbi', 'Praça Roberto Gomes Pedrosa, 1 - Morumbi, São Paulo - SP');
+INSERT INTO TBL_PLACES (name, adress) VALUES ('Tammy Pastelaria', 'Av. Dr. Américo Figueiredo, 76 - Jardim Simus, Sorocaba - SP');
