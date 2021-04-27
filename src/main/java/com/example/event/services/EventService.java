@@ -62,14 +62,19 @@ public class EventService {
         if( 
             insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
             insertDTO.getDescription()  == ""    || 
-            insertDTO.getPlace()        == ""    || 
             insertDTO.getName()         == null  || 
-            insertDTO.getDescription()  == null  || 
-            insertDTO.getPlace()        == null  ||
+            insertDTO.getDescription()  == null  ||
             insertDTO.getStartDate()    == null  ||
             insertDTO.getEndDate()      == null  ||
             insertDTO.getStartTime()    == null  ||
-            insertDTO.getEndTime()      == null 
+            insertDTO.getEndTime()      == null  ||
+            insertDTO.getEmailContact() == null ||
+            insertDTO.getAmountFreeTickets()     == null  ||
+            insertDTO.getAmountPayedTickets()     == null  ||
+            insertDTO.getFreeTickectsSelled()     == null  ||
+            insertDTO.getPayedTickectsSelled()     == null  ||
+            insertDTO.getPriceTicket()     == null  ||
+            insertDTO.getIdAdmin()     == null
         ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
         }
@@ -100,11 +105,12 @@ public class EventService {
             Event entity = repo.getOne(id);
             entity.setName(updateDTO.getName());
             entity.setDescription(updateDTO.getDescription());
-            entity.setPlace(updateDTO.getPlace());
             entity.setStartDate(updateDTO.getStartDate());
             entity.setEndDate(updateDTO.getEndDate());
             entity.setStartTime(updateDTO.getStartTime());
             entity.setEndTime(updateDTO.getEndTime());
+            entity.setPriceTicket(updateDTO.getPriceTicket());
+            entity.setIdAdmin(updateDTO.getIdAdmin());
             entity = repo.save(entity);
             return new EventDTO(entity);
         } 

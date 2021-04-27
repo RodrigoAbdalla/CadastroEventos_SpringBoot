@@ -8,36 +8,54 @@ import com.example.event.entities.Event;
 public class EventInsertDTO {
     private String name;
     private String description;
-    private String place;
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
     private String emailContact;
+    private Long amountFreeTickets;
+    private Long amountPayedTickets;
+    private Long freeTickectsSelled;        // pensar em começar com 0
+    private Long payedTickectsSelled;
+    private Float priceTicket;
+    private Long idAdmin ;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
     
     public EventInsertDTO() {
 	}
 
-    public EventInsertDTO(Long id, String name, String description, String place, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String emailContact) {
+    public EventInsertDTO(Long id, String name, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String emailContact,
+                          Long amountFreeTickets, Long amountPayedTickets, Long freeTickectsSelled, Long payedTickectsSelled, Float priceTicket, Long idAdmin
+    
+    ) {
         setName(name);
-        setPlace(place);
         setDescription(description);
         setStartDate(startDate);
         setEndDate(endDate);
         setStartTime(startTime);
         setEndTime(endTime);
         setEmailContact(emailContact);
+        setAmountFreeTickets(amountFreeTickets);
+        setAmountPayedTickets(amountPayedTickets);
+        setFreeTickectsSelled(freeTickectsSelled);
+        setPayedTickectsSelled(payedTickectsSelled);
+        setPriceTicket(priceTicket);
+        setIdAdmin(idAdmin);
 	}
 
     public EventInsertDTO(Event event) {
         setName(event.getName());
-        setPlace(event.getPlace());
         setDescription(event.getDescription());
         setStartDate(event.getStartDate());
         setEndDate(event.getEndDate());
         setStartTime(event.getStartTime());
         setEndTime(event.getEndTime());
         setEmailContact(event.getEmailContact());
+        setAmountFreeTickets(event.getAmountFreeTickets());
+        setAmountPayedTickets(event.getAmountPayedTickets());
+        setFreeTickectsSelled(event.getFreeTickectsSelled());
+        setPayedTickectsSelled(event.getPayedTickectsSelled());
+        setPriceTicket(event.getPriceTicket());
+        setIdAdmin(event.getIdAdmin());
     }
 
     public String getName() {
@@ -52,13 +70,6 @@ public class EventInsertDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getPlace() {
-        return place;
-    }
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -98,6 +109,56 @@ public class EventInsertDTO {
     public void setEmailContact(String emailContact) {
         this.emailContact = emailContact;
     }
+
+    public Long getAmountFreeTickets() {
+        return amountFreeTickets;
+    }
+
+    public void setAmountFreeTickets(Long amountFreeTickets) {
+        this.amountFreeTickets = amountFreeTickets;
+    }
+
+    public Long getAmountPayedTickets() {
+        return amountPayedTickets;
+    }
+
+    public void setAmountPayedTickets(Long amountPayedTickets) {
+        this.amountPayedTickets = amountPayedTickets;
+    }
+
+    public Long getFreeTickectsSelled() {
+        return freeTickectsSelled;
+    }
+
+    public void setFreeTickectsSelled(Long freeTickectsSelled) {
+        this.freeTickectsSelled = freeTickectsSelled;
+    }
+
+    public Long getPayedTickectsSelled() {
+        return payedTickectsSelled;
+    }
+
+    public void setPayedTickectsSelled(Long payedTickectsSelled) {
+        this.payedTickectsSelled = payedTickectsSelled;
+    }
+
+    public Float getPriceTicket() {
+        return priceTicket;
+    }
+
+    public void setPriceTicket(Float priceTicket) {
+        this.priceTicket = priceTicket;
+    }
+
+    public Long getIdAdmin() {
+        return idAdmin;
+    }
+
+    public void setIdAdmin(Long idAdmin) {
+        this.idAdmin = idAdmin;
+    }
+
+    
 
     
 

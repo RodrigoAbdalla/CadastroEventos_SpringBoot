@@ -9,33 +9,39 @@ public class EventUpdateDTO {
 
     private String name;
     private String description;
-    private String place;
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
+    private Float priceTicket;
+    private Long idAdmin; 
     
     public EventUpdateDTO() {
 	}
 
-    public EventUpdateDTO(Long id, String name, String description, String place, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+    public EventUpdateDTO(Long id, String name, String description, LocalDate startDate, 
+                          LocalDate endDate, LocalTime startTime, LocalTime endTime,
+                          Float priceTicket, Long idAdmin
+                          ) {
         setName(name);
-        setPlace(place);
         setDescription(description);
         setStartDate(startDate);
         setEndDate(endDate);
         setStartTime(startTime);
         setEndTime(endTime);
+        setPriceTicket(priceTicket);
+        setIdAdmin(idAdmin);
 	}
 
     public EventUpdateDTO(Event event) {
         setName(event.getName());
-        setPlace(event.getPlace());
         setDescription(event.getDescription());
         setStartDate(event.getStartDate());
         setEndDate(event.getEndDate());
         setStartTime(event.getStartTime());
         setEndTime(event.getEndTime());
+        setPriceTicket(event.getPriceTicket());
+        setIdAdmin(event.getIdAdmin());
     }
 
     public String getName() {
@@ -49,12 +55,6 @@ public class EventUpdateDTO {
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-    public String getPlace() {
-        return place;
-    }
-    public void setPlace(String place) {
-        this.place = place;
     }
 
     public LocalDate getStartDate() {
@@ -88,6 +88,23 @@ public class EventUpdateDTO {
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
+    public Float getPriceTicket() {
+        return priceTicket;
+    }
+
+    public void setPriceTicket(Float priceTicket) {
+        this.priceTicket = priceTicket;
+    }
+
+    public Long getIdAdmin() {
+        return idAdmin;
+    }
+
+    public void setIdAdmin(Long idAdmin) {
+        this.idAdmin = idAdmin;
+    }
+
 
     
 
