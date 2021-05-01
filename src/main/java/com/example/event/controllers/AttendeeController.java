@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/attendees")
+@RequestMapping("/attendees")           // Não está funcionando no POSTMAN
 public class AttendeeController {
     
     @Autowired

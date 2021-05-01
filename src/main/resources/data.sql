@@ -12,3 +12,7 @@ INSERT INTO TBL_EVENT (name, description, PLACE, EMAIL_CONTACT, START_DATE, STAR
 INSERT INTO TBL_EVENT (name, description, PLACE, EMAIL_CONTACT, START_DATE, START_TIME, END_DATE, END_TIME) VALUES ('12Copa Do Mundo', 'Campeonato mais aguardado do ano! Selecoes se encontram e jogam o melhor futebol!', 'Japão', 'fifa@outlook.com', '2022-6-1', '20:30:50','2022-11-2', '21:30:50');
 INSERT INTO TBL_PLACES (name, adress) VALUES ('Morumbi', 'Praça Roberto Gomes Pedrosa, 1 - Morumbi, São Paulo - SP');
 INSERT INTO TBL_PLACES (name, adress) VALUES ('Tammy Pastelaria', 'Av. Dr. Américo Figueiredo, 76 - Jardim Simus, Sorocaba - SP');
+INSERT INTO TBL_ADMINS(name, email, PHONE_NUMBER) VALUES ('Joao Angelotti', 'joao@outlook.com', '15997077070');
+INSERT INTO TBL_ADMINS(name, email, PHONE_NUMBER) VALUES ('Zac Efron', 'zac@outlook.com', '15998385897');
+INSERT INTO TBL_ATTENDEES(name, email, balance) VALUES ('Rodrigo Abdalla', 'rodrigo@outlook.com', '100.00');
+INSERT INTO TBL_ATTENDEES(name, email, balance) VALUES ('Emma Watson', 'emma@outlook.com', '50.00')
