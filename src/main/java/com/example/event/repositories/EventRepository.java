@@ -12,15 +12,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EventRepository extends JpaRepository <Event,Long> {
-    @Query("SELECT e FROM Event e INNER JOIN Place p " +
-           "ON e.idPlace = p.id " +
+    @Query("SELECT e FROM Event e " +
            "WHERE " +
            "LOWER(e.name)     LIKE   LOWER(CONCAT('%', :name, '%')) AND " +
-           "LOWER(p.name)  LIKE   LOWER(CONCAT('%', :place, '%'))  AND " +
            "LOWER(e.description)  LIKE   LOWER(CONCAT('%', :description, '%'))   AND   "    +
-           "e.startDate  > :startDate  "                    // Filtro para receber os eventos com a data maior do que a solicitada
+           "e.startDate  > :startDate AND "   +                 // Filtro para receber os eventos com a data maior do que a solicitada
+           "e.priceTicket <= :priceTicket"                      // Filtro para receber os eventos com o preço do ticket menor ou igual ao solicitado
     )
-    public Page<Event> find(Pageable pageRequest, String name, String place, String description, LocalDate startDate);
+    public Page<Event> find(Pageable pageRequest, String name, String description, LocalDate startDate, Float  priceTicket);
     
     
 }

@@ -38,13 +38,13 @@ public class EventController {
         @RequestParam(value = "direction",    defaultValue = "ASC") String direction,
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,
         @RequestParam(value = "name",         defaultValue = "") String name,
-        @RequestParam(value = "place",      defaultValue = "") String place,
         @RequestParam(value = "description",      defaultValue = "") String description,        
-        @RequestParam(value = "startDate",      defaultValue = "0000-01-01") String  startDateString // FORMATO ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd 
+        @RequestParam(value = "startDate",      defaultValue = "0000-01-01") String  startDateString, // FORMATO ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd,
+        @RequestParam(value = "priceTicket",      defaultValue = "0") Float  priceTicket        // Filtro para receber os eventos com o preço do ticket menor ou igual ao solicitado
     ){
          
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
-        Page <EventDTO> list = service.getEvents(pageRequest, name.trim(), place.trim(), description.trim(), startDateString);
+        Page <EventDTO> list = service.getEvents(pageRequest, name.trim(), description.trim(), startDateString,  priceTicket);
         
         return ResponseEntity.ok().body(list);
     }

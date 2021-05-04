@@ -26,7 +26,7 @@ public class EventService {
     @Autowired
     private EventRepository repo;
 
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String place, String description, String  startDateString) {
+    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String  startDateString, Float  priceTicket) {
 
 
 
@@ -39,7 +39,7 @@ public class EventService {
         }
         try{                                                                        // Mapeando o erro para caso o usuario tente colocar uma data nom formato errado
             LocalDate startDate = LocalDate.parse(startDateString.trim());          // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE 
-            Page<Event> list = repo.find(pageRequest, name, place, description, startDate);     
+            Page<Event> list = repo.find(pageRequest, name, description, startDate, priceTicket);     
             return list.map( e -> new EventDTO(e));
         }
         catch(Exception e){
