@@ -29,7 +29,7 @@ public class Event implements Serializable{
     private Long id;
     private String name;
     private String description;
-    private String place;           //Rodrigo: deixou "place" comentado 
+    // private String place;           //Rodrigo: deixou "place" comentado 
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
@@ -37,8 +37,8 @@ public class Event implements Serializable{
     private String emailContact;
     private Long amountFreeTickets;
     private Long amountPayedTickets;
-    private Long freeTickectsSelled;
-    private Long payedTickectsSelled;
+    private Long freeTicketsSelled;
+    private Long payedTicketsSelled;
     private Float priceTicket;
     private Long idAdmin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
     private Long idPlace;           // Não é obrigatorio, e talvez nao tenha no insert, só no update
@@ -73,12 +73,13 @@ public class Event implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
+    /*
     public String getPlace() {
         return place;
     }
     public void setPlace(String place) {
         this.place = place;
-    }
+    }*/
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -127,19 +128,19 @@ public class Event implements Serializable{
     }
 
     public Long getFreeTickectsSelled() {
-        return freeTickectsSelled;
+        return freeTicketsSelled;
     }
 
     public void setFreeTickectsSelled(Long freeTickectsSelled) {
-        this.freeTickectsSelled = freeTickectsSelled;
+        this.freeTicketsSelled = freeTickectsSelled;
     }
 
     public Long getPayedTickectsSelled() {
-        return payedTickectsSelled;
+        return payedTicketsSelled;
     }
 
     public void setPayedTickectsSelled(Long payedTickectsSelled) {
-        this.payedTickectsSelled = payedTickectsSelled;
+        this.payedTicketsSelled = payedTickectsSelled;
     }
 
     public Float getPriceTicket() {
