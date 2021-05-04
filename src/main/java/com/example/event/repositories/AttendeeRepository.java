@@ -14,7 +14,7 @@ public interface AttendeeRepository extends JpaRepository <Attendee,Long> {
            "WHERE " +
            "LOWER(e.name)     LIKE   LOWER(CONCAT('%', :name, '%')) AND " +
            "LOWER(e.email)  LIKE   LOWER(CONCAT('%', :email, '%'))  AND " +
-           "e.balance  LIKE   CONCAT('%', :balance, '%') "
+           "e.balance  >=   :balance "
     )
     public Page<Attendee> find(Pageable pageRequest, String name, String email, Double balance);
     

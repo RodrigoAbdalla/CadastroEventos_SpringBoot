@@ -39,7 +39,7 @@ public class AttendeeController {
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,
         @RequestParam(value = "name",         defaultValue = "") String name,
         @RequestParam(value = "email",      defaultValue = "") String email,
-        @RequestParam(value = "balance",      defaultValue = "") Double balance
+        @RequestParam(value = "balance",      defaultValue = "0") Double balance
     ){
          
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
