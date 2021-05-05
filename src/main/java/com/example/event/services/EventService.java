@@ -1,6 +1,7 @@
 package com.example.event.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -102,7 +103,40 @@ public class EventService {
 
     public EventDTO update(Long id, EventUpdateDTO updateDTO) {
         try {
+            
+            if( 
+            updateDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
+            updateDTO.getDescription()  == ""    || 
+            updateDTO.getName()         == null  || 
+            updateDTO.getDescription()  == null  ||
+            updateDTO.getStartDate()    == null  ||
+            updateDTO.getEndDate()      == null  ||
+            updateDTO.getStartTime()    == null  ||
+            updateDTO.getEndTime()      == null  ||
+            updateDTO.getPriceTicket()     == null  ||
+            updateDTO.getIdAdmin()     == null
+            ){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
+            }
+            else if(
+                updateDTO.getStartDate().isAfter(updateDTO.getEndDate()) ||         // Logica para nao aceitar que a data final seja maior que a data inicial
+                ((updateDTO.getStartDate().isEqual(updateDTO.getEndDate())) 
+                && 
+                (updateDTO.getStartTime().isAfter(updateDTO.getEndTime())))
+            ){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An event cannot start after the end");
+            }
+            else if(updateDTO.getStartDate().isBefore(LocalDateTime.now().toLocalDate())){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You cannot change the start date to before today");
+            }
+
             Event entity = repo.getOne(id);
+            if(entity.getEndDate().isBefore(LocalDateTime.now().toLocalDate()) || (entity.getEndDate().isEqual(LocalDateTime.now().toLocalDate()) && entity.getEndTime().isBefore(LocalDateTime.now().toLocalTime()))){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The event is over, update is not avaiable");
+            }
+            
+        
+            
             entity.setName(updateDTO.getName());
             entity.setDescription(updateDTO.getDescription());
             entity.setStartDate(updateDTO.getStartDate());
@@ -116,6 +150,7 @@ public class EventService {
         } 
         catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+            
         }
     }
 
