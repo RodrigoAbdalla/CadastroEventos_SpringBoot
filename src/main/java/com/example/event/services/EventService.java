@@ -2,6 +2,8 @@ package com.example.event.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -9,8 +11,11 @@ import javax.persistence.EntityNotFoundException;
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
 import com.example.event.dto.EventUpdateDTO;
+import com.example.event.dto.PlaceDTO;
 import com.example.event.entities.Event;
+import com.example.event.entities.Place;
 import com.example.event.repositories.EventRepository;
+import com.example.event.repositories.PlaceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,6 +31,9 @@ public class EventService {
 
     @Autowired
     private EventRepository repo;
+
+    @Autowired
+    private PlaceRepository placeRepository;
 
     public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String  startDateString, Float  priceTicket) {
 
@@ -154,4 +162,28 @@ public class EventService {
         }
     }
 
+/*
+    public EventDTO addPlaceToEvent(Long idEvent, Long idPlace) {
+        Event event = new Event();
+        event = repo.findById(idEvent).get();
+        event.addPlace(placeRepository.findById(idPlace).get());
+        repo.save(event);
+        return null;
+    }
+
+
+    public List<PlaceDTO> getPlaces(Long idEvent, PageRequest pageRequest) {
+        Page<Place> list = repo.findById(id) (pageRequest, name, description, startDate, priceTicket);     
+            return list.map( e -> new EventDTO(e));
+        Event event = new Event();
+        List <Place> places = new ArrayList<>();
+        List <PlaceDTO> placesDTO = new ArrayList<>();
+        event = repo.findById(idEvent).get();
+        for (Place place : places) {
+            placesDTO.add(PlaceDTO(place));
+        }
+        places = event.getPlaces();
+        return places.map( e -> new PlaceDTO(e));
+    }
+*/
 }
