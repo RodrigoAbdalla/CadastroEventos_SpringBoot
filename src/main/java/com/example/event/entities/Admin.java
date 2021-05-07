@@ -1,11 +1,14 @@
 package com.example.event.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.event.dto.AdminInsertDTO;
@@ -22,6 +25,9 @@ public class Admin implements Serializable{
     private String name;
     private String email;
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "admin")
+    private List <Event> events = new ArrayList<>(); 
 
 
     public Admin() {
@@ -57,7 +63,13 @@ public class Admin implements Serializable{
         this.phoneNumber = phoneNumber;
     }
 
+    public List<Event> getEvents() {
+        return events;
+    }
 
+    public void addEvent(Event event) {
+        this.events.add(event);
+    }
 
     //Não sei se vai precisar disso         *****VERIFICAR*****
     @Override

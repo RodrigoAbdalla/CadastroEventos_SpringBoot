@@ -1,11 +1,14 @@
 package com.example.event.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.example.event.dto.PlaceInsertDTO;
@@ -21,6 +24,8 @@ public class Place implements Serializable{
     private String name;
     private String adress;
 
+    @ManyToMany(mappedBy = "places")
+    private List <Event> events = new ArrayList<>();  
 
     public Place() {
     }
@@ -49,6 +54,15 @@ public class Place implements Serializable{
 
     public void setAdress(String adress) {
         this.adress = adress;
+    }
+
+    
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void addEvent(Event event) {
+        this.events.add(event);
     }
 
     @Override

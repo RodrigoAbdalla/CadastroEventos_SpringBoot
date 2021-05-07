@@ -2,8 +2,12 @@ package com.example.event.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.example.event.entities.Admin;
 import com.example.event.entities.Event;
+import com.example.event.entities.Place;
 
 public class EventDTO {
     private Long id;
@@ -19,15 +23,15 @@ public class EventDTO {
     private Long freeTickectsSelled;        // pensar em começar com 0
     private Long payedTickectsSelled;
     private Float priceTicket;
-    private Long idAdmin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
-    private Long idPlace;
+    private Admin admin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
+    private List <Place> places = new ArrayList<>();
     
     
     public EventDTO() {
 	}
 
     public EventDTO(Long id, String name, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String emailContact,
-    Long amountFreeTickets, Long amountPayedTickets, Long freeTickectsSelled, Long payedTickectsSelled, Float priceTicket, Long idAdmin, Long idPlace) {
+    Long amountFreeTickets, Long amountPayedTickets, Long freeTickectsSelled, Long payedTickectsSelled, Float priceTicket, Admin admin, List <Place> places) {
         setId(id);
         setName(name);
         setDescription(description);
@@ -41,8 +45,8 @@ public class EventDTO {
         setFreeTickectsSelled(freeTickectsSelled);
         setPayedTickectsSelled(payedTickectsSelled);
         setPriceTicket(priceTicket);
-        setIdAdmin(idAdmin);
-        setIdPlace(idPlace);
+        setAdmin(admin);
+        setPlaces(places);
 	}
 
     public EventDTO(Event event) {
@@ -56,11 +60,11 @@ public class EventDTO {
         setEmailContact(event.getEmailContact());
         setAmountFreeTickets(event.getAmountFreeTickets());
         setAmountPayedTickets(event.getAmountPayedTickets());
-        setFreeTickectsSelled(event.getFreeTickectsSelled());
-        setPayedTickectsSelled(event.getPayedTickectsSelled());
+        setFreeTickectsSelled(event.getFreeTicketsSelled());
+        setPayedTickectsSelled(event.getPayedTicketsSelled());
         setPriceTicket(event.getPriceTicket());
-        setIdAdmin(event.getIdAdmin());
-        setIdPlace(event.getIdPlace());
+        setAdmin(event.getAdmin());
+        setPlaces(event.getPlaces());
     }
 
     public String getName() {
@@ -164,21 +168,21 @@ public class EventDTO {
         this.priceTicket = priceTicket;
     }
 
-    public Long getIdAdmin() {
-        return idAdmin;
+
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setIdAdmin(Long idAdmin) {
-        this.idAdmin = idAdmin;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
-    public Long getIdPlace() {
-        return idPlace;
+    public List<Place> getPlaces() {
+        return places;
     }
 
-    public void setIdPlace(Long idPlace) {
-        this.idPlace = idPlace;
+    public void setPlaces(List<Place> places) {
+        this.places = places;
     }
-    
 
 }

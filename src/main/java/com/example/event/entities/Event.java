@@ -3,11 +3,17 @@ package com.example.event.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.event.dto.EventInsertDTO;
@@ -29,7 +35,6 @@ public class Event implements Serializable{
     private Long id;
     private String name;
     private String description;
-    // private String place;           //Rodrigo: deixou "place" comentado 
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
@@ -40,8 +45,13 @@ public class Event implements Serializable{
     private Long freeTicketsSelled;
     private Long payedTicketsSelled;
     private Float priceTicket;
-    private Long idAdmin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
-    private Long idPlace;           // Não é obrigatorio, e talvez nao tenha no insert, só no update
+
+    @ManyToOne
+    @JoinColumn(name="ID_ADMIN")
+    private Admin admin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
+
+    @ManyToMany
+    private List <Place> places = new ArrayList<>();           // Não é obrigatorio, e talvez nao tenha no insert, só no update
 
     public Event() {
     }
@@ -73,13 +83,6 @@ public class Event implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
-    /*
-    public String getPlace() {
-        return place;
-    }
-    public void setPlace(String place) {
-        this.place = place;
-    }*/
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -127,19 +130,19 @@ public class Event implements Serializable{
         this.amountPayedTickets = amountPayedTickets;
     }
 
-    public Long getFreeTickectsSelled() {
+    public Long getFreeTicketsSelled() {
         return freeTicketsSelled;
     }
 
-    public void setFreeTickectsSelled(Long freeTickectsSelled) {
+    public void setFreeTicketsSelled(Long freeTickectsSelled) {
         this.freeTicketsSelled = freeTickectsSelled;
     }
 
-    public Long getPayedTickectsSelled() {
+    public Long getPayedTicketsSelled() {
         return payedTicketsSelled;
     }
 
-    public void setPayedTickectsSelled(Long payedTickectsSelled) {
+    public void setPayedTicketsSelled(Long payedTickectsSelled) {
         this.payedTicketsSelled = payedTickectsSelled;
     }
 
@@ -151,20 +154,21 @@ public class Event implements Serializable{
         this.priceTicket = priceTicket;
     }
 
-    public Long getIdAdmin() {
-        return idAdmin;
+
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setIdAdmin(Long idAdmin) {
-        this.idAdmin = idAdmin;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
-    public Long getIdPlace() {
-        return idPlace;
+    public List<Place> getPlaces() {
+        return places;
     }
 
-    public void setIdPlace(Long idPlace) {
-        this.idPlace = idPlace;
+    public void addPlace(Place place) {
+        this.places.add(place);
     }
 
     @Override

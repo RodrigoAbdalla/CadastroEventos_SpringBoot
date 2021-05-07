@@ -3,6 +3,7 @@ package com.example.event.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.example.event.entities.Admin;
 import com.example.event.entities.Event;
 
 public class EventUpdateDTO {
@@ -14,14 +15,14 @@ public class EventUpdateDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private Float priceTicket;
-    private Long idAdmin; 
+    private Admin admin; 
     
     public EventUpdateDTO() {
 	}
 
     public EventUpdateDTO(Long id, String name, String description, LocalDate startDate, 
                           LocalDate endDate, LocalTime startTime, LocalTime endTime,
-                          Float priceTicket, Long idAdmin
+                          Float priceTicket, Admin admin
                           ) {
         setName(name);
         setDescription(description);
@@ -30,7 +31,7 @@ public class EventUpdateDTO {
         setStartTime(startTime);
         setEndTime(endTime);
         setPriceTicket(priceTicket);
-        setIdAdmin(idAdmin);
+        setAdmin(admin);
 	}
 
     public EventUpdateDTO(Event event) {
@@ -41,7 +42,7 @@ public class EventUpdateDTO {
         setStartTime(event.getStartTime());
         setEndTime(event.getEndTime());
         setPriceTicket(event.getPriceTicket());
-        setIdAdmin(event.getIdAdmin());
+        setAdmin(event.getAdmin());
     }
 
     public String getName() {
@@ -97,13 +98,14 @@ public class EventUpdateDTO {
         this.priceTicket = priceTicket;
     }
 
-    public Long getIdAdmin() {
-        return idAdmin;
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setIdAdmin(Long idAdmin) {
-        this.idAdmin = idAdmin;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
+
 
 
     

@@ -75,7 +75,7 @@ public class EventService {
             insertDTO.getFreeTickectsSelled()     == null  ||
             insertDTO.getPayedTickectsSelled()     == null  ||
             insertDTO.getPriceTicket()     == null  ||
-            insertDTO.getIdAdmin()     == null
+            insertDTO.getAdmin()     == null
         ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
         }
@@ -114,7 +114,7 @@ public class EventService {
             updateDTO.getStartTime()    == null  ||
             updateDTO.getEndTime()      == null  ||
             updateDTO.getPriceTicket()     == null  ||
-            updateDTO.getIdAdmin()     == null
+            updateDTO.getAdmin()     == null
             ){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
             }
@@ -144,7 +144,7 @@ public class EventService {
             entity.setStartTime(updateDTO.getStartTime());
             entity.setEndTime(updateDTO.getEndTime());
             entity.setPriceTicket(updateDTO.getPriceTicket());
-            entity.setIdAdmin(updateDTO.getIdAdmin());
+            entity.setAdmin(updateDTO.getAdmin());
             entity = repo.save(entity);
             return new EventDTO(entity);
         } 
