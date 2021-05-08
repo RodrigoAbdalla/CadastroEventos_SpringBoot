@@ -12,11 +12,9 @@ import org.springframework.stereotype.Repository;
 public interface AttendeeRepository extends JpaRepository <Attendee,Long> {
     @Query("SELECT e FROM Attendee e " + 
            "WHERE " +
-           "LOWER(e.name)     LIKE   LOWER(CONCAT('%', :name, '%')) AND " +
-           "LOWER(e.email)  LIKE   LOWER(CONCAT('%', :email, '%'))  AND " +
            "e.balance  >=   :balance "
     )
-    public Page<Attendee> find(Pageable pageRequest, String name, String email, Double balance);
+    public Page<Attendee> find(Pageable pageRequest, Double balance);
     
     
 }

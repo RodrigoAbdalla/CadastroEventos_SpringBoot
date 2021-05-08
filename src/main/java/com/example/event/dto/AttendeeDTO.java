@@ -3,47 +3,21 @@ package com.example.event.dto;
 import com.example.event.entities.Attendee;
 
 public class AttendeeDTO {
-    private Long id;
-    private String name;
-    private String email;
     private Double balance;
 
 
     public AttendeeDTO() {
 	}
 
-    public AttendeeDTO(Long id, String name, String email, Double balance) {
-        setId(id);
-        setName(name);
-        setEmail(email);
+    public AttendeeDTO(Double balance) {
         setBalance(balance);
 	}
 
     public AttendeeDTO(Attendee attendee) {
-        setId(attendee.getId());
-        setName(attendee.getName());
-        setEmail(attendee.getEmail());
         setBalance(attendee.getBalance());
     }
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
+   
     public Double getBalance() {
         return balance;
     }

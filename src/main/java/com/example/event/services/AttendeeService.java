@@ -25,11 +25,11 @@ public class AttendeeService {
     @Autowired
     private AttendeeRepository repo;
 
-    public Page<AttendeeDTO> getAttendees(PageRequest pageRequest, String name, String email, Double balance) {
+    public Page<AttendeeDTO> getAttendees(PageRequest pageRequest, Double balance) {
 
 
         try{                                                
-            Page<Attendee> list = repo.find(pageRequest, name, email, balance);     
+            Page<Attendee> list = repo.find(pageRequest, balance);     
             return list.map( e -> new AttendeeDTO(e));
         }
         catch(Exception e){
@@ -47,11 +47,7 @@ public class AttendeeService {
 
     public AttendeeDTO insert(AttendeeInsertDTO insertDTO) {
         if( 
-            insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
-            insertDTO.getEmail()        == ""    || 
-            insertDTO.getName()         == null  || 
-            insertDTO.getEmail()        == null  || 
-            insertDTO.getBalance()      == null
+            insertDTO.getBalance() == null
             
         ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
@@ -74,8 +70,6 @@ public class AttendeeService {
     public AttendeeDTO update(Long id, AttendeeUpdateDTO updateDTO) {
         try {
             Attendee entity = repo.getOne(id);
-            entity.setName(updateDTO.getName());
-            entity.setEmail(updateDTO.getEmail());
             entity.setBalance(updateDTO.getBalance());
 
             entity = repo.save(entity);
