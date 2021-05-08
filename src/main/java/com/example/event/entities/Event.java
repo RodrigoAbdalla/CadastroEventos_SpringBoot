@@ -52,6 +52,10 @@ public class Event implements Serializable{
     @ManyToMany
     private List <Place> places = new ArrayList<>();           // Não é obrigatorio, e talvez nao tenha no insert, só no update
 
+    @ManyToOne
+    @JoinColumn(name ="ID_TICKET")              //JOÃO: Adicionei o ID do Ticket
+    private Ticket ticket;
+
     public Event() {
     }
 
