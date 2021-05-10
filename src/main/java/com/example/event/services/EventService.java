@@ -2,8 +2,6 @@ package com.example.event.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -11,9 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
 import com.example.event.dto.EventUpdateDTO;
-import com.example.event.dto.PlaceDTO;
 import com.example.event.entities.Event;
-import com.example.event.entities.Place;
 import com.example.event.repositories.EventRepository;
 import com.example.event.repositories.PlaceRepository;
 

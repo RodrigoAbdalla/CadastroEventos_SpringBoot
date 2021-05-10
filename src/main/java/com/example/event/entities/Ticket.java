@@ -2,18 +2,17 @@ package com.example.event.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TBL_TICKETS") //Vai ter tabela para cada entidade???
+@Table(name="TBL_TICKETS")
 public class Ticket implements Serializable{
     private static final long serialVersionUID = 1L;
 
@@ -24,8 +23,13 @@ public class Ticket implements Serializable{
     private Instant date;
     private Double price;
 
-    /*@ManyToMany(mappedBy = "tickets")
-    private List <Event> events = new ArrayList<>();*/         //JOÃO: Não sei se vai precisar disso também
+    @ManyToOne
+    @JoinColumn(name = "ID_EVENT") 
+    private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_ATTENDEE") 
+    private Attendee attendee;
 
     public Ticket() {
     }
@@ -56,13 +60,26 @@ public class Ticket implements Serializable{
         this.price = price;
     }
 
-    /*public List<Event> getEvents() {
-        return events;
+
+    public Event getEvent() {
+        return event;
     }
-                                                //JOÃO: NÃO SEI SE VAI PRECISAR DE UMA LISTA
-    public void addEvent(Event event) {
-        this.events.add(event);
-    }*/
+
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+    
+
+    public Attendee getAttendee() {
+        return attendee;
+    }
+
+
+    public void setAttendee(Attendee attendee) {
+        this.attendee = attendee;
+    }
+
 
     @Override
     public int hashCode() {

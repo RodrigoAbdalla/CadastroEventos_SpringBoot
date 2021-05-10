@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.event.dto.EventInsertDTO;
@@ -52,9 +53,8 @@ public class Event implements Serializable{
     @ManyToMany
     private List <Place> places = new ArrayList<>();           // Não é obrigatorio, e talvez nao tenha no insert, só no update
 
-    @ManyToOne
-    @JoinColumn(name ="ID_TICKET")              //JOÃO: Adicionei o ID do Ticket
-    private Ticket ticket;
+    @OneToMany  (mappedBy = "event")           
+    private List <Ticket> tickets  = new ArrayList<>();
 
     public Event() {
     }
@@ -172,6 +172,15 @@ public class Event implements Serializable{
 
     public void addPlace(Place place) {
         this.places.add(place);
+    }
+    
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void addTickets(Ticket ticket) {
+        this.tickets.add(ticket);
     }
 
     @Override

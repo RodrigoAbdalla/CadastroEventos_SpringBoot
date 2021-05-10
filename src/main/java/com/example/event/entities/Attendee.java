@@ -1,8 +1,11 @@
 package com.example.event.entities;
 
 
-import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -14,6 +17,9 @@ import com.example.event.dto.AttendeeInsertDTO;
 public class Attendee extends BaseUser{
     
     private Double balance;
+    
+    @OneToMany  (mappedBy = "attendee")           
+    private List <Ticket> tickets  = new ArrayList<>();
 
 
     public Attendee() {
@@ -28,6 +34,14 @@ public class Attendee extends BaseUser{
     }
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+    
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void addTickets(Ticket ticket) {
+        this.tickets.add(ticket);
     }
 
 }
