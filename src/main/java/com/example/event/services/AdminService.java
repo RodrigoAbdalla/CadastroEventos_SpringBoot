@@ -25,11 +25,11 @@ public class AdminService {
     @Autowired
     private AdminRepository repo;
 
-    public Page<AdminDTO> getAdmins(PageRequest pageRequest, String phoneNumber) {
+    public Page<AdminDTO> getAdmins(PageRequest pageRequest, String name, String email, String phoneNumber) {
 
 
         try{                                                
-            Page<Admin> list = repo.find(pageRequest, phoneNumber);     
+            Page<Admin> list = repo.find(pageRequest, name, email, phoneNumber);     
             return list.map( e -> new AdminDTO(e));
         }
         catch(Exception e){
@@ -47,7 +47,11 @@ public class AdminService {
 
     public AdminDTO insert(AdminInsertDTO insertDTO) {
         if( 
+            insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
+            insertDTO.getEmail()        == ""    || 
             insertDTO.getPhoneNumber()  == ""    || 
+            insertDTO.getName()         == null  || 
+            insertDTO.getEmail()        == null  || 
             insertDTO.getPhoneNumber()  == null
             
         ){
@@ -71,6 +75,8 @@ public class AdminService {
     public AdminDTO update(Long id, AdminUpdateDTO updateDTO) {
         try {
             Admin entity = repo.getOne(id);
+            entity.setName(updateDTO.getName());
+            entity.setEmail(updateDTO.getEmail());
             entity.setPhoneNumber(updateDTO.getPhoneNumber());
 
             entity = repo.save(entity);

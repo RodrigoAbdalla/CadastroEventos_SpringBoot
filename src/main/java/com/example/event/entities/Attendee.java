@@ -16,6 +16,7 @@ import com.example.event.dto.AttendeeInsertDTO;
 @PrimaryKeyJoinColumn(name="ID_BASE_USER")
 public class Attendee extends BaseUser{
     
+    
     private Double balance;
     
     @OneToMany  (mappedBy = "attendee")           
@@ -26,8 +27,11 @@ public class Attendee extends BaseUser{
     }
 
     public Attendee(AttendeeInsertDTO insertDTO) {
+       
         this.balance = insertDTO.getBalance();
     }
+    
+    
     
     public Double getBalance() {
         return balance;
