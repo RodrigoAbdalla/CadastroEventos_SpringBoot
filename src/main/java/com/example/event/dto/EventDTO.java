@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.example.event.entities.Admin;
 import com.example.event.entities.Event;
-import com.example.event.entities.Place;
 
 public class EventDTO {
     private Long id;
@@ -24,14 +23,13 @@ public class EventDTO {
     private Long payedTickectsSelled;
     private Float priceTicket;
     private Admin admin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
-    private List <Place> places = new ArrayList<>();
     
     
     public EventDTO() {
 	}
 
     public EventDTO(Long id, String name, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String emailContact,
-    Long amountFreeTickets, Long amountPayedTickets, Long freeTickectsSelled, Long payedTickectsSelled, Float priceTicket, Admin admin, List <Place> places) {
+    Long amountFreeTickets, Long amountPayedTickets, Long freeTickectsSelled, Long payedTickectsSelled, Float priceTicket, Admin admin) {
         setId(id);
         setName(name);
         setDescription(description);
@@ -46,7 +44,6 @@ public class EventDTO {
         setPayedTickectsSelled(payedTickectsSelled);
         setPriceTicket(priceTicket);
         setAdmin(admin);
-        setPlaces(places);
 	}
 
     public EventDTO(Event event) {
@@ -64,7 +61,6 @@ public class EventDTO {
         setPayedTickectsSelled(event.getPayedTicketsSelled());
         setPriceTicket(event.getPriceTicket());
         setAdmin(event.getAdmin());
-        setPlaces(event.getPlaces());
     }
 
     public String getName() {
@@ -175,14 +171,6 @@ public class EventDTO {
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
-    }
-
-    public List<Place> getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(List<Place> places) {
-        this.places = places;
     }
 
 }
