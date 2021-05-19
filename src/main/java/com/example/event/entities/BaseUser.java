@@ -81,6 +81,13 @@ public class BaseUser implements Serializable{
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "BaseUser [email=" + email + ", id=" + id + ", name=" + name + "]";
+    }
+
+    
+
     
     
 }

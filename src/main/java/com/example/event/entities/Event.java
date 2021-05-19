@@ -188,4 +188,13 @@ public class Event implements Serializable{
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Event [AmountFreeTickets=" + amountFreeTickets + ", amountPayedTickets="
+                + amountPayedTickets + ", description=" + description + ", emailContact=" + emailContact + ", endDate="
+                + endDate + ", endTime=" + endTime + ", id=" + id + ", name=" + name + ", priceTicket=" + priceTicket
+                + ", startDate=" + startDate + ", startTime=" + startTime + "]";
+    }
+    
 }

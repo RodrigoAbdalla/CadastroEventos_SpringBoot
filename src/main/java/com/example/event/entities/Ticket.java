@@ -104,4 +104,12 @@ public class Ticket implements Serializable{
             return false;
         return true;
     }
+
+
+    @Override
+    public String toString() {
+        return "Ticket [attendee=" + attendee + ", date=" + date + ", event=" + event + ", id=" + id + ", price="
+                + price + ", type=" + type + "]";
+    }
+    
 }

@@ -88,4 +88,10 @@ public class Place implements Serializable{
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Place [adress=" + adress + ", events=" + events + ", id=" + id + ", name=" + name + "]";
+    }
+    
 }

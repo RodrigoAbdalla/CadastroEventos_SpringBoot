@@ -48,4 +48,10 @@ public class Attendee extends BaseUser{
         this.tickets.add(ticket);
     }
 
+    @Override
+    public String toString() {
+        return "Attendee [balance=" + balance + "]";
+    }
+
+    
 }

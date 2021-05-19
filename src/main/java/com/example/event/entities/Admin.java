@@ -45,4 +45,11 @@ public class Admin extends BaseUser{
         this.events.add(event);
     }
 
+    @Override
+    public String toString() {
+        return "Admin [phoneNumber=" + phoneNumber + "]";
+    }
+
+    
+
 }
