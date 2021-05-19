@@ -42,9 +42,7 @@ public class Event implements Serializable{
     private String emailContact;
     private Long amountFreeTickets;
     private Long amountPayedTickets;
-    private Long freeTicketsSelled;
-    private Long payedTicketsSelled;
-    private Float priceTicket;
+    private Double priceTicket;
 
     @ManyToOne
     @JoinColumn(name="ID_ADMIN")
@@ -133,27 +131,11 @@ public class Event implements Serializable{
         this.amountPayedTickets = amountPayedTickets;
     }
 
-    public Long getFreeTicketsSelled() {
-        return freeTicketsSelled;
-    }
-
-    public void setFreeTicketsSelled(Long freeTickectsSelled) {
-        this.freeTicketsSelled = freeTickectsSelled;
-    }
-
-    public Long getPayedTicketsSelled() {
-        return payedTicketsSelled;
-    }
-
-    public void setPayedTicketsSelled(Long payedTickectsSelled) {
-        this.payedTicketsSelled = payedTickectsSelled;
-    }
-
-    public Float getPriceTicket() {
+    public Double getPriceTicket() {
         return priceTicket;
     }
 
-    public void setPriceTicket(Float priceTicket) {
+    public void setPriceTicket(Double priceTicket) {
         this.priceTicket = priceTicket;
     }
 

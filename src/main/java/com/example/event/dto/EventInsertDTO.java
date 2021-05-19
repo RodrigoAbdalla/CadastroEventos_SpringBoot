@@ -16,16 +16,14 @@ public class EventInsertDTO {
     private String emailContact;
     private Long amountFreeTickets;
     private Long amountPayedTickets;
-    private Long freeTickectsSelled;        // pensar em começar com 0
-    private Long payedTickectsSelled;
-    private Float priceTicket;
+    private Double priceTicket;
     private Admin admin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
     
     public EventInsertDTO() {
 	}
 
     public EventInsertDTO(Long id, String name, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String emailContact,
-                          Long amountFreeTickets, Long amountPayedTickets, Long freeTickectsSelled, Long payedTickectsSelled, Float priceTicket, Admin admin
+                          Long amountFreeTickets, Long amountPayedTickets, Double priceTicket, Admin admin
     
     ) {
         setName(name);
@@ -37,8 +35,6 @@ public class EventInsertDTO {
         setEmailContact(emailContact);
         setAmountFreeTickets(amountFreeTickets);
         setAmountPayedTickets(amountPayedTickets);
-        setFreeTickectsSelled(freeTickectsSelled);
-        setPayedTickectsSelled(payedTickectsSelled);
         setPriceTicket(priceTicket);
         setAdmin(admin);
 	}
@@ -53,8 +49,6 @@ public class EventInsertDTO {
         setEmailContact(event.getEmailContact());
         setAmountFreeTickets(event.getAmountFreeTickets());
         setAmountPayedTickets(event.getAmountPayedTickets());
-        setFreeTickectsSelled(event.getFreeTicketsSelled());
-        setPayedTickectsSelled(event.getPayedTicketsSelled());
         setPriceTicket(event.getPriceTicket());
         setAdmin(event.getAdmin());
     }
@@ -127,27 +121,11 @@ public class EventInsertDTO {
         this.amountPayedTickets = amountPayedTickets;
     }
 
-    public Long getFreeTickectsSelled() {
-        return freeTickectsSelled;
-    }
-
-    public void setFreeTickectsSelled(Long freeTickectsSelled) {
-        this.freeTickectsSelled = freeTickectsSelled;
-    }
-
-    public Long getPayedTickectsSelled() {
-        return payedTickectsSelled;
-    }
-
-    public void setPayedTickectsSelled(Long payedTickectsSelled) {
-        this.payedTickectsSelled = payedTickectsSelled;
-    }
-
-    public Float getPriceTicket() {
+    public Double getPriceTicket() {
         return priceTicket;
     }
 
-    public void setPriceTicket(Float priceTicket) {
+    public void setPriceTicket(Double priceTicket) {
         this.priceTicket = priceTicket;
     }
 

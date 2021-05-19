@@ -19,7 +19,7 @@ public interface EventRepository extends JpaRepository <Event,Long> {
            "e.startDate  > :startDate AND "   +                 // Filtro para receber os eventos com a data maior do que a solicitada
            "e.priceTicket <= :priceTicket"                      // Filtro para receber os eventos com o preço do ticket menor ou igual ao solicitado
     )
-    public Page<Event> find(Pageable pageRequest, String name, String description, LocalDate startDate, Float  priceTicket);
+    public Page<Event> find(Pageable pageRequest, String name, String description, LocalDate startDate, Double  priceTicket);
     
     
 }

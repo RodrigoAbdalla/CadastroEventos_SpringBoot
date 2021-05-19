@@ -14,7 +14,7 @@ public class EventUpdateDTO {
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
-    private Float priceTicket;
+    private Double priceTicket;
     private Admin admin; 
     
     public EventUpdateDTO() {
@@ -22,7 +22,7 @@ public class EventUpdateDTO {
 
     public EventUpdateDTO(Long id, String name, String description, LocalDate startDate, 
                           LocalDate endDate, LocalTime startTime, LocalTime endTime,
-                          Float priceTicket, Admin admin
+                          Double priceTicket, Admin admin
                           ) {
         setName(name);
         setDescription(description);
@@ -90,11 +90,11 @@ public class EventUpdateDTO {
         this.endTime = endTime;
     }
 
-    public Float getPriceTicket() {
+    public Double getPriceTicket() {
         return priceTicket;
     }
 
-    public void setPriceTicket(Float priceTicket) {
+    public void setPriceTicket(Double priceTicket) {
         this.priceTicket = priceTicket;
     }
 

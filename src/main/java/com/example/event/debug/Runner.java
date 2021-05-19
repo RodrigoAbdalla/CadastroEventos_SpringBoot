@@ -217,10 +217,8 @@ public class Runner implements CommandLineRunner{
         e1.setStartDate(date);
         time = LocalTime.parse("20:30:50");
         e1.setStartTime(time);
-        e1.setFreeTicketsSelled(0L);
         e1.setName("Rock In Rio");
-        e1.setPayedTicketsSelled(0L);
-        e1.setPriceTicket(300F);
+        e1.setPriceTicket(300.0);
         
 
         Event e2 = new Event();
@@ -237,10 +235,8 @@ public class Runner implements CommandLineRunner{
         e2.setStartDate(date);
         time = LocalTime.parse("14:31:50");
         e2.setStartTime(time);
-        e2.setFreeTicketsSelled(0L);
         e2.setName("Libertadores");
-        e2.setPayedTicketsSelled(0L);
-        e2.setPriceTicket(800F);
+        e2.setPriceTicket(800.0);
 
         Event e3 = new Event();
         e3.setAdmin(adminRepository.findById(2L).get());
@@ -256,10 +252,8 @@ public class Runner implements CommandLineRunner{
         e3.setStartDate(date);
         time = LocalTime.parse("20:30:50");
         e3.setStartTime(time);
-        e3.setFreeTicketsSelled(0L);
         e3.setName("Paulistao");
-        e3.setPayedTicketsSelled(0L);
-        e3.setPriceTicket(1900F);
+        e3.setPriceTicket(1900.0);
 
         Event e4 = new Event();
         e4.setAdmin(adminRepository.findById(3L).get());
@@ -275,10 +269,8 @@ public class Runner implements CommandLineRunner{
         e4.setStartDate(date);
         time = LocalTime.parse("20:30:50");
         e4.setStartTime(time);
-        e4.setFreeTicketsSelled(0L);
         e4.setName("Copa Do Mundo");
-        e4.setPayedTicketsSelled(0L);
-        e4.setPriceTicket(4900F);
+        e4.setPriceTicket(4900.0);
 
         eventRepository.save(e1);
         eventRepository.save(e2);

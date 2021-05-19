@@ -31,7 +31,7 @@ public class EventService {
     @Autowired
     private PlaceRepository placeRepository;
 
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String  startDateString, Float  priceTicket) {
+    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String  startDateString, Double  priceTicket) {
 
 
 
@@ -76,8 +76,6 @@ public class EventService {
             insertDTO.getEmailContact() == null ||
             insertDTO.getAmountFreeTickets()     == null  ||
             insertDTO.getAmountPayedTickets()     == null  ||
-            insertDTO.getFreeTickectsSelled()     == null  ||
-            insertDTO.getPayedTickectsSelled()     == null  ||
             insertDTO.getPriceTicket()     == null  ||
             insertDTO.getAdmin()     == null
         ){
