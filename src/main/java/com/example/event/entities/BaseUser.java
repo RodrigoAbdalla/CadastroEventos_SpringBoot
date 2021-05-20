@@ -27,10 +27,12 @@ public class BaseUser implements Serializable{
 
     }
     
-    public BaseUser(Long id, String name) {
-        this.id = id;
+    public BaseUser(String email, String name) {
+        this.email = email;
         this.name = name;
+        this.id = id;
     }
+
 
     public Long getId() {
         return id;

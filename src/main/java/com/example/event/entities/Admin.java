@@ -27,6 +27,7 @@ public class Admin extends BaseUser{
     }
 
     public Admin(AdminInsertDTO insertDTO) {
+        super(insertDTO.getEmail(), insertDTO.getName());
         this.phoneNumber = insertDTO.getPhoneNumber();
     }
    

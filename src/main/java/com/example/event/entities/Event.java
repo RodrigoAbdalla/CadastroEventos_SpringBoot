@@ -65,6 +65,9 @@ public class Event implements Serializable{
         this.startTime = insertDTO.getStartTime();
         this.endTime = insertDTO.getEndTime();
         this.emailContact = insertDTO.getEmailContact();
+        this.amountFreeTickets = insertDTO.getAmountFreeTickets();
+        this.amountPayedTickets = insertDTO.getAmountPayedTickets();
+        this.priceTicket = insertDTO.getPriceTicket();
     }
     public Long getId() {
         return id;

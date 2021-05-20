@@ -3,8 +3,14 @@ package com.example.event.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.persistence.Transient;
+
 import com.example.event.entities.Admin;
 import com.example.event.entities.Event;
+import com.example.event.repositories.AdminRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 
 public class EventInsertDTO {
     private String name;
@@ -14,16 +20,17 @@ public class EventInsertDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private String emailContact;
-    private Long amountFreeTickets;
+    private Long amountFreeTickets; 
     private Long amountPayedTickets;
     private Double priceTicket;
-    private Admin admin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
+    private Long admin;     // Recebe um numero do JSON do post    
+    
     
     public EventInsertDTO() {
 	}
 
     public EventInsertDTO(Long id, String name, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String emailContact,
-                          Long amountFreeTickets, Long amountPayedTickets, Double priceTicket, Admin admin
+                          Long amountFreeTickets, Long amountPayedTickets, Double priceTicket, Long admin
     
     ) {
         setName(name);
@@ -50,7 +57,7 @@ public class EventInsertDTO {
         setAmountFreeTickets(event.getAmountFreeTickets());
         setAmountPayedTickets(event.getAmountPayedTickets());
         setPriceTicket(event.getPriceTicket());
-        setAdmin(event.getAdmin());
+        setAdmin(event.getAdmin().getId());
     }
 
     public String getName() {
@@ -129,11 +136,12 @@ public class EventInsertDTO {
         this.priceTicket = priceTicket;
     }
 
-    public Admin getAdmin() {
+    
+    public Long getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Admin admin) {
+    public void setAdmin(Long admin) {
         this.admin = admin;
     }
 

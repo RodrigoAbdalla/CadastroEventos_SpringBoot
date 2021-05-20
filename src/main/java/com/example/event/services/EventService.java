@@ -3,6 +3,7 @@ package com.example.event.services;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -11,6 +12,7 @@ import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
 import com.example.event.dto.EventUpdateDTO;
 import com.example.event.entities.Event;
+import com.example.event.repositories.AdminRepository;
 import com.example.event.repositories.EventRepository;
 import com.example.event.repositories.PlaceRepository;
 
@@ -32,6 +34,8 @@ public class EventService {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @Autowired
+    private AdminRepository adminRepository;
     public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String  startDateString, Double  priceTicket) {
 
 
@@ -90,10 +94,17 @@ public class EventService {
                 (insertDTO.getStartTime().isAfter(insertDTO.getEndTime())))
             ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An event cannot start after the end");
+        }  
+        try {
+            Event entity = new Event(insertDTO);
+            // Coleta o numero do ADMIN que está guardado no inserDTO e procura no repository
+            entity.setAdmin(adminRepository.findById(insertDTO.getAdmin()).get());
+            entity = repo.save(entity);
+            return new EventDTO(entity);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found");
         }
-        Event entity = new Event(insertDTO);
-        entity = repo.save(entity);
-        return new EventDTO(entity);
+        
     }
 
     public void delete(Long id) {
