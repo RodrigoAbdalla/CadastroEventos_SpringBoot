@@ -2,6 +2,7 @@ package com.example.event.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -42,13 +43,14 @@ public class EventService {
         else if(startDateString.contains(".")){
             startDateString = startDateString.replace(".", "-");
         }
+        
         try{                                                                        // Mapeando o erro para caso o usuario tente colocar uma data nom formato errado
             LocalDate startDate = LocalDate.parse(startDateString.trim());          // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE 
             Page<Event> list = repo.find(pageRequest, name, description, startDate, priceTicket);     
             return list.map( e -> new EventDTO(e));
         }
-        catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Error trying to Convert to DataType. Please note that Data Format is yyyy/mm/dd");
+        catch(DateTimeParseException e){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Error trying to Convert to DataType. Please note that Data Format is yyyy/MM/dd");
         }
          
         

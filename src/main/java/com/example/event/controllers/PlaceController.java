@@ -54,6 +54,7 @@ public class PlaceController {
 
     @PostMapping
 	public ResponseEntity<PlaceDTO> insert(@RequestBody PlaceInsertDTO insertDto){
+        
 		PlaceDTO dto = service.insert(insertDto); 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);

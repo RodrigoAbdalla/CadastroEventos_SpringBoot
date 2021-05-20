@@ -27,15 +27,8 @@ public class AdminService {
 
     public Page<AdminDTO> getAdmins(PageRequest pageRequest, String name, String email, String phoneNumber) {
 
-
-        try{                                                
-            Page<Admin> list = repo.find(pageRequest, name, email, phoneNumber);     
-            return list.map( e -> new AdminDTO(e));
-        }
-        catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Error trying to Convert to DataType. Please note that Data Format is yyyy/mm/dd");
-        }
-  
+        Page<Admin> list = repo.find(pageRequest, name, email, phoneNumber);     
+        return list.map( e -> new AdminDTO(e));  
     }
 
 

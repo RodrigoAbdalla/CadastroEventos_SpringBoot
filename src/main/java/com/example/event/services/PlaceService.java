@@ -9,6 +9,7 @@ import com.example.event.dto.PlaceInsertDTO;
 import com.example.event.dto.PlaceUpdateDTO;
 import com.example.event.entities.Place;
 import com.example.event.repositories.PlaceRepository;
+import com.fasterxml.jackson.core.JsonParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,17 +29,9 @@ public class PlaceService{
     public Page<PlaceDTO> getPlaces(PageRequest pageRequest, String name, String adress) {
 
 
-        try{                                                                             
-            Page<Place> list = repo.find(pageRequest, name, adress);     
-            return list.map( e -> new PlaceDTO(e));
-        }
-        catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Error trying to get Places");
-        }
-         
-        
-
-        
+        Page<Place> list = repo.find(pageRequest, name, adress);     
+        return list.map( e -> new PlaceDTO(e));
+           
     }
 
 
@@ -54,9 +47,11 @@ public class PlaceService{
             insertDTO.getAdress()       == ""    ||  
             insertDTO.getName()         == null  || 
             insertDTO.getAdress()       == null 
-        ){
+        )
+        {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
         }
+        
         Place entity = new Place (insertDTO);
         entity = repo.save(entity);
         return new PlaceDTO(entity);

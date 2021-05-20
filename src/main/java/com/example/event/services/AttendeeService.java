@@ -27,14 +27,8 @@ public class AttendeeService {
 
     public Page<AttendeeDTO> getAttendees(PageRequest pageRequest, String name, String email, Double balance) {
 
-
-        try{                                                
-            Page<Attendee> list = repo.find(pageRequest, name, email, balance);     
-            return list.map( e -> new AttendeeDTO(e));
-        }
-        catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Error trying to Convert to DataType. Please note that Data Format is yyyy/mm/dd");
-        }
+        Page<Attendee> list = repo.find(pageRequest, name, email, balance);     
+        return list.map( e -> new AttendeeDTO(e));
   
     }
 
