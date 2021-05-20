@@ -2,7 +2,7 @@
 
 
 --
-POST - PLACES
+Post - Places
 {
             "name": "Morumbi",
             "adress": "Praça Roberto Gomes Pedrosa, 1 - Morumbi, São Paulo - SP"
@@ -22,4 +22,19 @@ Post - Events
             "amountPayedTickets": 1000,
             "priceTicket": 300,
             "admin": 1
+}
+
+Post - Attendees
+{
+            "name": "Roberto Sebastião da Silva",
+            "email": "roberto_sebastiao@outlook.com",
+            "balance": 0.0
+}
+
+
+Post -  Admins
+{
+            "name": "Teste",
+            "email": "rodrigo_abdalla@outlook.com",
+            "phoneNumber": "(15)98156-7870"
 }
