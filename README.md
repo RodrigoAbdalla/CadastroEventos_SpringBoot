@@ -44,3 +44,37 @@ Post -  Admins
             "email": "rodrigo_abdalla@outlook.com",
             "phoneNumber": "(15)98156-7870"
 }
+
+
+--------
+
+Put - Events
+{
+            "name": "TESTE",
+            "description": "Shows de rock e atualidades",
+            "startDate": "2019-02-01",
+            "endDate": "2019-02-02",
+            "startTime": "20:30:50",
+            "endTime": "22:30:50",
+            "priceTicket": 300
+}
+
+Put - Places
+{
+            "name": "teste"
+}
+
+
+Put - Attendees
+{
+            "name": "Roberto Sebastião da Silva",
+            "email": "roberto_sebastiao@outlook.com"
+}
+
+
+Put -  Admins
+{
+            "name": "Teste",
+            "email": "rodrigo_abdalla@outlook.com",
+            "phoneNumber": "(15)98156-7870"
+}

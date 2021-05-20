@@ -15,14 +15,13 @@ public class EventUpdateDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private Double priceTicket;
-    private Admin admin; 
     
     public EventUpdateDTO() {
 	}
 
     public EventUpdateDTO(Long id, String name, String description, LocalDate startDate, 
                           LocalDate endDate, LocalTime startTime, LocalTime endTime,
-                          Double priceTicket, Admin admin
+                          Double priceTicket
                           ) {
         setName(name);
         setDescription(description);
@@ -31,7 +30,6 @@ public class EventUpdateDTO {
         setStartTime(startTime);
         setEndTime(endTime);
         setPriceTicket(priceTicket);
-        setAdmin(admin);
 	}
 
     public EventUpdateDTO(Event event) {
@@ -42,7 +40,6 @@ public class EventUpdateDTO {
         setStartTime(event.getStartTime());
         setEndTime(event.getEndTime());
         setPriceTicket(event.getPriceTicket());
-        setAdmin(event.getAdmin());
     }
 
     public String getName() {
@@ -97,15 +94,6 @@ public class EventUpdateDTO {
     public void setPriceTicket(Double priceTicket) {
         this.priceTicket = priceTicket;
     }
-
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
-    }
-
 
 
     

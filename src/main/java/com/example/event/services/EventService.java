@@ -128,8 +128,7 @@ public class EventService {
             updateDTO.getEndDate()      == null  ||
             updateDTO.getStartTime()    == null  ||
             updateDTO.getEndTime()      == null  ||
-            updateDTO.getPriceTicket()     == null  ||
-            updateDTO.getAdmin()     == null
+            updateDTO.getPriceTicket()     == null
             ){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
             }
@@ -141,6 +140,7 @@ public class EventService {
             ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An event cannot start after the end");
             }
+            // Logica para nao aceitar mudanças de data do evento para antes da data atual.
             else if(updateDTO.getStartDate().isBefore(LocalDateTime.now().toLocalDate())){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You cannot change the start date to before today");
             }
@@ -159,7 +159,6 @@ public class EventService {
             entity.setStartTime(updateDTO.getStartTime());
             entity.setEndTime(updateDTO.getEndTime());
             entity.setPriceTicket(updateDTO.getPriceTicket());
-            entity.setAdmin(updateDTO.getAdmin());
             entity = repo.save(entity);
             return new EventDTO(entity);
         } 

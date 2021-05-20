@@ -6,21 +6,18 @@ public class AttendeeUpdateDTO {
 
     private String name;
     private String email;
-    private Double balance;
 
     public AttendeeUpdateDTO() {
 	}
 
-    public AttendeeUpdateDTO(Long id, String name, String email, Double balance) {
+    public AttendeeUpdateDTO(Long id, String name, String email) {
         setName(name);
         setEmail(email);
-        setBalance(balance);
 	}
 
     public AttendeeUpdateDTO(Attendee event) {
         setName(event.getName());
         setEmail(event.getEmail());
-        setBalance(event.getBalance());
     }
 
     public String getName() {
@@ -38,13 +35,6 @@ public class AttendeeUpdateDTO {
         this.email = email;
     }
 
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }
 
 
 }

@@ -70,7 +70,6 @@ public class AttendeeService {
             Attendee entity = repo.getOne(id);
             entity.setName(updateDTO.getName());
             entity.setEmail(updateDTO.getEmail());
-            entity.setBalance(updateDTO.getBalance());
 
             entity = repo.save(entity);
             return new AttendeeDTO(entity);
