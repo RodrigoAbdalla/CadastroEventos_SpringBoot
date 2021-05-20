@@ -193,8 +193,14 @@ public class Runner implements CommandLineRunner{
         p2.setAdress("Av. Dr. Américo Figueiredo, 76 - Jardim Simus, Sorocaba - SP");
         p2.setName("Tammy Pastelaria");
         
+        Place p3 = new Place();
+        p3.setAdress("Av. Miguel Ignácio Curi, 111 - Artur Alvim, São Paulo");
+        p3.setName("Neo Química Arena");
+
+
         placeRepository.save(p1);
         placeRepository.save(p2);
+        placeRepository.save(p3);
     }
 
 

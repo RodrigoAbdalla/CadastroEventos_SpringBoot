@@ -3,14 +3,7 @@ package com.example.event.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.persistence.Transient;
-
-import com.example.event.entities.Admin;
 import com.example.event.entities.Event;
-import com.example.event.repositories.AdminRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 
 public class EventInsertDTO {
     private String name;

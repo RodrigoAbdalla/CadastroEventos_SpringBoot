@@ -1,5 +1,11 @@
 # ProjetoLab-AC1-Individual
 
+INTEGRANTES: 
+
+Rodrigo Abdalla Ramos da Silva	 - 190214 
+
+joão Victor Timo Angelotti Pinto - 190826 
+
 
 --
 Post - Places

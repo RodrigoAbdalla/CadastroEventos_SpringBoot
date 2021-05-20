@@ -9,7 +9,6 @@ import com.example.event.dto.PlaceInsertDTO;
 import com.example.event.dto.PlaceUpdateDTO;
 import com.example.event.entities.Place;
 import com.example.event.repositories.PlaceRepository;
-import com.fasterxml.jackson.core.JsonParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
