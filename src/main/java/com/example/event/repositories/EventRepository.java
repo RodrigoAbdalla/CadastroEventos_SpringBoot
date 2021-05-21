@@ -28,6 +28,5 @@ public interface EventRepository extends JpaRepository <Event,Long> {
     )
     public List<Event> findByAdmin(Long admin);
 
-
     
 }

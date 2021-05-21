@@ -1,14 +1,10 @@
 package com.example.event.controllers;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
 import com.example.event.dto.EventUpdateDTO;
-import com.example.event.dto.PlaceDTO;
-import com.example.event.entities.Place;
 import com.example.event.services.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;

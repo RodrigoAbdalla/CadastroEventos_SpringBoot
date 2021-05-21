@@ -3,7 +3,6 @@ package com.example.event.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.example.event.entities.Admin;
 import com.example.event.entities.Event;
 
 public class EventUpdateDTO {
