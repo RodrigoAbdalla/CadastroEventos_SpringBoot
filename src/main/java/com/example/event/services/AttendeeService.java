@@ -1,5 +1,7 @@
 package com.example.event.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -8,7 +10,9 @@ import com.example.event.dto.AttendeeDTO;
 import com.example.event.dto.AttendeeInsertDTO;
 import com.example.event.dto.AttendeeUpdateDTO;
 import com.example.event.entities.Attendee;
+import com.example.event.entities.Ticket;
 import com.example.event.repositories.AttendeeRepository;
+import com.example.event.repositories.TicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,6 +28,9 @@ public class AttendeeService {
 
     @Autowired
     private AttendeeRepository repo;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     public Page<AttendeeDTO> getAttendees(PageRequest pageRequest, String name, String email, Double balance) {
 
@@ -58,6 +65,13 @@ public class AttendeeService {
 
     public void delete(Long id) {
         try {
+            List<Ticket> ticket = new ArrayList<>();
+            // Procura se possui um ticket com o attendee cadastrado. Caso possua, não será possível realizar o delete
+            // Sendo assim necessário vender o ticket primeiro, com o DELETE /events/{id}/tickets, disponível apenas nas AF.
+            ticket = ticketRepository.findByAttendee(id);
+            if(ticket.size() != 0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Attendee has a ticket. To remove an attendee, you need to sell all their tickets first");
+            }
             repo.deleteById(id);
         } 
         catch (EmptyResultDataAccessException e) {

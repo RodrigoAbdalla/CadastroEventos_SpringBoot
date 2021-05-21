@@ -45,7 +45,7 @@ public class EventController {
         @RequestParam(value = "description",      defaultValue = "") String description,        
         @RequestParam(value = "startDate",      defaultValue = "0000-01-01") String  startDateString, // FORMATO ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd,
         @RequestParam(value = "priceTicket",      defaultValue = "9999999999999") Double  priceTicket        // Filtro para receber os eventos com o preço do ticket menor ou igual ao solicitado
-    ){
+        ){
          
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
         Page <EventDTO> list = service.getEvents(pageRequest, name.trim(), description.trim(), startDateString,  priceTicket);

@@ -46,10 +46,10 @@ public class Event implements Serializable{
 
     @ManyToOne
     @JoinColumn(name="ID_ADMIN")
-    private Admin admin;           // OBRIGATÓRIO PASSAR ESSE ID, MANDAR ERRO SE NÃO FOR PASSADO
+    private Admin admin;           
 
     @ManyToMany
-    private List <Place> places = new ArrayList<>();           // Não é obrigatorio, e talvez nao tenha no insert, só no update
+    private List <Place> places = new ArrayList<>();           
 
     @OneToMany  (mappedBy = "event")           
     private List <Ticket> tickets  = new ArrayList<>();

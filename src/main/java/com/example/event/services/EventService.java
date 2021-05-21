@@ -14,9 +14,8 @@ import com.example.event.dto.EventUpdateDTO;
 import com.example.event.entities.Event;
 import com.example.event.repositories.AdminRepository;
 import com.example.event.repositories.EventRepository;
-import com.example.event.repositories.PlaceRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,8 +30,6 @@ public class EventService {
     @Autowired
     private EventRepository repo;
 
-    @Autowired
-    private PlaceRepository placeRepository;
 
     @Autowired
     private AdminRepository adminRepository;
@@ -113,6 +110,12 @@ public class EventService {
         } 
         catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+        }
+        // Tratamento para caso o evento já possua um lugar cadastrado, 
+        // neste caso, só é possivel excluindo todas as associações primeiro, com o DELETE /events/{id}/places/{id} (Disponível apenas na AF)
+        catch(DataIntegrityViolationException e){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Event has a Place. To remove an event, you need to first delete the associated places.");
+
         }
     }
 

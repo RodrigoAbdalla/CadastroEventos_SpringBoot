@@ -303,9 +303,15 @@ public class Runner implements CommandLineRunner{
         a3.setEmail("nicolecristina@outlook.com");
         a3.setName("Nicole Cristina");
 
+        Attendee a4 = new Attendee();
+        a4.setBalance(0.0);
+        a4.setEmail("jesromeu@outlook.com");
+        a4.setName("Jeromeu Cassio");
+
         attendeeRepository.save(a1);
         attendeeRepository.save(a2);
         attendeeRepository.save(a3);
+        attendeeRepository.save(a4);
     }
 
 
@@ -326,11 +332,11 @@ public class Runner implements CommandLineRunner{
         a3.setEmail("pedroso_teobaldo@hotmail.com");
         a3.setName("Teobaldo Pedroso");
         a3.setPhoneNumber("(15)98505-3070");
-    
+
+        
         adminRepository.save(a1);
         adminRepository.save(a2);
         adminRepository.save(a3);
-
     }
 
     

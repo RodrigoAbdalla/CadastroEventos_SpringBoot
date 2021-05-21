@@ -11,6 +11,7 @@ import com.example.event.entities.Place;
 import com.example.event.repositories.PlaceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,6 +63,11 @@ public class PlaceService{
         } 
         catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
+        }
+        // Tratamento para caso o lugar já possua um evento cadastrado, 
+        // neste caso, só é possivel excluindo todas as associações primeiro, com o DELETE /events/{id}/places/{id} (Disponível apenas na AF)
+        catch(DataIntegrityViolationException e){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Place has an Event. To remove a place, you need to first delete the associated events.");
         }
     }
 

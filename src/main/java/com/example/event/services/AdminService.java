@@ -1,5 +1,7 @@
 package com.example.event.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -8,7 +10,9 @@ import com.example.event.dto.AdminDTO;
 import com.example.event.dto.AdminInsertDTO;
 import com.example.event.dto.AdminUpdateDTO;
 import com.example.event.entities.Admin;
+import com.example.event.entities.Event;
 import com.example.event.repositories.AdminRepository;
+import com.example.event.repositories.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,6 +28,9 @@ public class AdminService {
 
     @Autowired
     private AdminRepository repo;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     public Page<AdminDTO> getAdmins(PageRequest pageRequest, String name, String email, String phoneNumber) {
 
@@ -58,6 +65,12 @@ public class AdminService {
 
     public void delete(Long id) {
         try {
+            List<Event> event = new ArrayList<>();
+            //Procura se possui um evento com o admin cadastrado. Caso possua, não será possível realizar o delete, sendo necessário excluir o evento primeiro
+            event = eventRepository.findByAdmin(id);
+            if(event.size() != 0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Admin has an Event. To remove an admin, you need to first delete the associated event.");
+            }
             repo.deleteById(id);
         } 
         catch (EmptyResultDataAccessException e) {
