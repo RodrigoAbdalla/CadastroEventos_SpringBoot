@@ -3,6 +3,8 @@ package com.example.event.services;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -12,8 +14,11 @@ import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
 import com.example.event.dto.EventUpdateDTO;
 import com.example.event.entities.Event;
+import com.example.event.entities.Place;
 import com.example.event.repositories.AdminRepository;
 import com.example.event.repositories.EventRepository;
+import com.example.event.repositories.PlaceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,6 +31,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class EventService {
+
+    @Autowired
+    private PlaceRepository placeRepository;
 
     @Autowired
     private EventRepository repo;
@@ -171,28 +179,70 @@ public class EventService {
         }
     }
 
-/*
+
     public EventDTO addPlaceToEvent(Long idEvent, Long idPlace) {
-        Event event = new Event();
-        event = repo.findById(idEvent).get();
-        event.addPlace(placeRepository.findById(idPlace).get());
+
+        // Verificação se existe o Event com o ID solicitado
+        Optional<Event> opEvent = repo.findById(idEvent);
+        Event event = opEvent.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
+
+        // Verificação se existe o Place com o ID solicitado
+        Optional<Place> opPlace = placeRepository.findById(idPlace);
+        Place place = opPlace.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
+
+        // Verificação da disponibilidade das datas 
+        List <Event> listEvents = new ArrayList<>();
+        listEvents = place.getEvents();
+        for (Event e : listEvents) {
+            // Verificação para não permitir que o mesmo evento seja adicionado ao mesmo lugar
+            if(e.getId() == event.getId()){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You have already link this place to this event");
+            }
+            // Verificação para não permitir que dois eventos que possuem horários simultâneos aconteçam  no mesmo lugar. 
+            if (
+
+                (event.getStartDate().isAfter(e.getStartDate()) & event.getStartDate().isBefore(e.getEndDate()) & event.getStartTime().isAfter(e.getStartTime()) & event.getStartTime().isBefore(e.getEndTime())) ||
+                (event.getStartDate().isAfter(e.getStartDate()) & event.getStartDate().isBefore(e.getEndDate()) & event.getEndTime().isAfter(e.getStartTime()) & event.getEndTime().isBefore(e.getEndTime())) ||
+                (event.getStartDate().isAfter(e.getStartDate()) & event.getStartDate().isBefore(e.getEndDate()) & event.getStartTime().isBefore(e.getStartTime()) & event.getEndTime().isAfter(e.getEndTime()))  ||
+                (event.getStartDate().isAfter(e.getStartDate()) & event.getStartDate().isBefore(e.getEndDate()) & event.getStartTime().compareTo(e.getStartTime())== 0)  ||
+                (event.getStartDate().isAfter(e.getStartDate()) & event.getStartDate().isBefore(e.getEndDate()) & event.getEndTime().compareTo(e.getEndTime())== 0)  ||
+
+                (event.getEndDate().isAfter(e.getStartDate()) & event.getEndDate().isBefore(e.getEndDate()) & event.getStartTime().isAfter(e.getStartTime()) & event.getStartTime().isBefore(e.getEndTime())) ||
+                (event.getEndDate().isAfter(e.getStartDate()) & event.getEndDate().isBefore(e.getEndDate()) & event.getEndTime().isAfter(e.getStartTime()) & event.getEndTime().isBefore(e.getEndTime())) ||
+                (event.getEndDate().isAfter(e.getStartDate()) & event.getEndDate().isBefore(e.getEndDate()) & event.getStartTime().isBefore(e.getStartTime()) & event.getEndTime().isAfter(e.getEndTime())) ||
+                (event.getEndDate().isAfter(e.getStartDate()) & event.getEndDate().isBefore(e.getEndDate()) & event.getStartTime().compareTo(e.getStartTime())== 0)  ||
+                (event.getEndDate().isAfter(e.getStartDate()) & event.getEndDate().isBefore(e.getEndDate()) & event.getEndTime().compareTo(e.getEndTime())== 0)  ||
+
+                (event.getEndDate().isEqual(e.getStartDate())  & event.getStartTime().isAfter(e.getStartTime()) & event.getStartTime().isBefore(e.getEndTime())) ||
+                (event.getEndDate().isEqual(e.getStartDate())  & event.getEndTime().isAfter(e.getStartTime()) & event.getEndTime().isBefore(e.getEndTime())) ||
+                (event.getEndDate().isEqual(e.getStartDate())  & event.getStartTime().isBefore(e.getStartTime()) & event.getEndTime().isAfter(e.getEndTime())) ||
+                (event.getEndDate().isEqual(e.getStartDate())  & event.getStartTime().compareTo(e.getStartTime())== 0)  ||
+                (event.getEndDate().isEqual(e.getStartDate())  & event.getEndTime().compareTo(e.getEndTime())== 0)  ||
+
+                (event.getStartDate().isEqual(e.getStartDate())  & event.getStartTime().isAfter(e.getStartTime()) & event.getStartTime().isBefore(e.getEndTime())) ||
+                (event.getStartDate().isEqual(e.getStartDate())  & event.getEndTime().isAfter(e.getStartTime()) & event.getEndTime().isBefore(e.getEndTime())) ||
+                (event.getStartDate().isEqual(e.getStartDate())  & event.getStartTime().isBefore(e.getStartTime()) & event.getEndTime().isAfter(e.getEndTime())) ||
+                (event.getStartDate().isEqual(e.getStartDate())  & event.getStartTime().compareTo(e.getStartTime())== 0)  ||
+                (event.getStartDate().isEqual(e.getStartDate())  & event.getEndTime().compareTo(e.getEndTime())== 0)  ||
+
+                (event.getEndDate().isEqual(e.getEndDate())  & event.getStartTime().isAfter(e.getStartTime()) & event.getStartTime().isBefore(e.getEndTime())) ||
+                (event.getEndDate().isEqual(e.getEndDate())  & event.getEndTime().isAfter(e.getStartTime()) & event.getEndTime().isBefore(e.getEndTime())) ||
+                (event.getEndDate().isEqual(e.getEndDate())  & event.getStartTime().isBefore(e.getStartTime()) & event.getEndTime().isAfter(e.getEndTime())) ||
+                (event.getEndDate().isEqual(e.getEndDate())  & event.getStartTime().compareTo(e.getStartTime())== 0)  ||
+                (event.getEndDate().isEqual(e.getEndDate())  & event.getEndTime().compareTo(e.getEndTime())== 0)  ||
+
+                (event.getStartDate().isEqual(e.getEndDate())  & event.getStartTime().isAfter(e.getStartTime()) & event.getStartTime().isBefore(e.getEndTime())) ||
+                (event.getStartDate().isEqual(e.getEndDate())  & event.getEndTime().isAfter(e.getStartTime()) & event.getEndTime().isBefore(e.getEndTime())) ||
+                (event.getStartDate().isEqual(e.getEndDate())  & event.getStartTime().isBefore(e.getStartTime()) & event.getEndTime().isAfter(e.getEndTime())) ||
+                (event.getStartDate().isEqual(e.getEndDate())  & event.getStartTime().compareTo(e.getStartTime())== 0)  ||
+                (event.getStartDate().isEqual(e.getEndDate())  & event.getEndTime().compareTo(e.getEndTime())== 0)  
+            ){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An Event will happen in the same place at the same time");
+            }
+        }
+        event.addPlace(place);
         repo.save(event);
         return null;
     }
 
-
-    public List<PlaceDTO> getPlaces(Long idEvent, PageRequest pageRequest) {
-        Page<Place> list = repo.findById(id) (pageRequest, name, description, startDate, priceTicket);     
-            return list.map( e -> new EventDTO(e));
-        Event event = new Event();
-        List <Place> places = new ArrayList<>();
-        List <PlaceDTO> placesDTO = new ArrayList<>();
-        event = repo.findById(idEvent).get();
-        for (Place place : places) {
-            placesDTO.add(PlaceDTO(place));
-        }
-        places = event.getPlaces();
-        return places.map( e -> new PlaceDTO(e));
-    }
-*/
 }

@@ -73,24 +73,11 @@ public class EventController {
 		EventDTO dto = service.update(id, updateDto); 
 		return ResponseEntity.ok().body(dto);
 	}
-/*
-    @PostMapping("{id}/places/{id}")
+
+    @PostMapping("{idEvent}/places/{idPlace}")
 	public ResponseEntity<Void> addPlaceToEvent(@PathVariable Long idEvent, @PathVariable Long idPlace){
 		service.addPlaceToEvent(idEvent, idPlace); 
-		return ResponseEntity.noContent().build();      // VERIFICAR
+		return ResponseEntity.noContent().build();      
 	}
 
-    @GetMapping("{id}/places")
-	public ResponseEntity<Page<PlaceDTO>> getPlaces (
-        @PathVariable Long idEvent,
-        @RequestParam(value = "page",         defaultValue = "0") Integer page,
-        @RequestParam(value = "linesPerPage", defaultValue = "6") Integer linesPerPage,
-        @RequestParam(value = "direction",    defaultValue = "ASC") String direction,
-        @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy    
-    ){
-        
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
-        Page <PlaceDTO> list = service.getPlaces(idEvent, pageRequest);
-        return ResponseEntity.ok().body(list);
-	}*/
 }
