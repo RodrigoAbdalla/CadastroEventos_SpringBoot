@@ -159,6 +159,17 @@ public class Event implements Serializable{
         this.places.add(place);
     }
     
+    public Place getPlaceById(Long id) {
+        for (Place place : places) {
+            if(place.getId() == id)
+                return place;
+        }
+        return null;
+    }
+
+    public void removePlace(Place place) {
+        this.places.remove(place);
+    }
 
     public List<Ticket> getTickets() {
         return tickets;
@@ -167,6 +178,8 @@ public class Event implements Serializable{
     public void addTickets(Ticket ticket) {
         this.tickets.add(ticket);
     }
+
+    
 
     @Override
     public int hashCode() {

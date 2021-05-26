@@ -80,4 +80,10 @@ public class EventController {
 		return ResponseEntity.noContent().build();      
 	}
 
+    @DeleteMapping("{idEvent}/places/{idPlace}")
+	public ResponseEntity<Void> removeLinkPlaceEvent(@PathVariable Long idEvent, @PathVariable Long idPlace){
+		service.removeLinkPlaceEvent(idEvent, idPlace); 
+		return ResponseEntity.noContent().build();      
+	}
+
 }

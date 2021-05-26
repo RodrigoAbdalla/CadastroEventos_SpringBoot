@@ -2,6 +2,7 @@ package com.example.event.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -243,6 +244,31 @@ public class EventService {
         event.addPlace(place);
         repo.save(event);
         return null;
+    }
+
+
+    public void removeLinkPlaceEvent(Long idEvent, Long idPlace) {
+        // Verificação se existe o Event com o ID solicitado
+        Optional<Event> opEvent = repo.findById(idEvent);
+        Event event = opEvent.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
+
+        // Verificação se existe o Place com o ID solicitado
+        Optional<Place> opPlace = placeRepository.findById(idPlace);
+        Place place = opPlace.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
+
+        // Verificação para garantir que existe uma conexão com o Evento e Lugar solicitados
+        place = event.getPlaceById(idPlace);
+        if (place == null)
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This event has no link with this place.");
+        
+        
+        // Verificação para não permitir que um lugar seja excluído do evento se o evento já tiver começado.
+        if((event.getStartDate().isBefore(LocalDate.now()) || event.getStartDate().isEqual(LocalDate.now())) & (event.getEndDate().isAfter(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) & event.getEndTime().compareTo(LocalTime.now()) != -1 )))
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can`t change de place of a event that is already happening");
+
+        // Remove a conexão do evento e lugar
+        event.removePlace(place);
+        repo.save(event);
     }
 
 }
