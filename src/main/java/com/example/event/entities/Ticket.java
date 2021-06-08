@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.event.dto.TicketInsertDeletelDTO;
+
 @Entity
 @Table(name="TBL_TICKETS")
 public class Ticket implements Serializable{
@@ -35,6 +37,22 @@ public class Ticket implements Serializable{
     }
 
     
+    public Ticket(TicketInsertDeletelDTO insertTicket, Attendee attendee, Event event) {
+        this.attendee = attendee;
+        this.date = Instant.now();
+        this.event = event;
+        // Validacao para caso o ticket seja de graca, o valor dele sera zero.
+        if(insertTicket.getType().toUpperCase().compareTo("FREE") == 0){
+            this.type = TicketType.FREE;
+            this.price =  0.0;
+        }
+        else if(insertTicket.getType().toUpperCase().compareTo("PAYED") == 0){
+            this.type = TicketType.PAYED;
+            this.price =  event.getPriceTicket();
+        }
+    }
+
+
     public Long getId() {
         return id;
     }

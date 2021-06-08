@@ -70,12 +70,19 @@ public class Runner implements CommandLineRunner{
     private void createTickets() {
         Ticket t1 = new Ticket();
         t1.setDate(Instant.now());
+
+        // Tira 1 na quantidade de tickets free disponiveis 
+        Event e1 = new Event();
+        e1 = eventRepository.findById(1L).get();
+        e1.setAmountFreeTickets(e1.getAmountFreeTickets() - 1);
+
         t1.setEvent(eventRepository.findById(1L).get());
         t1.setAttendee(attendeeRepository.findById(4L).get());
         t1.setPrice(0.0);
         t1.setType(TicketType.FREE);
         ticketRepository.save(t1);
-
+        eventRepository.save(e1);
+        
         Ticket t2 = new Ticket();
         t2.setDate(Instant.now());
         t2.setEvent(eventRepository.findById(1L).get());

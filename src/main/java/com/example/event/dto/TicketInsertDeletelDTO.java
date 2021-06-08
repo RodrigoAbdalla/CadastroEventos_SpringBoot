@@ -1,49 +1,33 @@
 package com.example.event.dto;
 
-import com.example.event.entities.Attendee;
-import com.example.event.entities.TicketType;
+import com.example.event.entities.Ticket;
 
 public class TicketInsertDeletelDTO {
-    private TicketType type;
-    private Attendee attendee;
+    private String type;
+    private Long idAttendee;
 
-    
-    public TicketType getType() {
+    public TicketInsertDeletelDTO(String type, Long idAttendee) {
+        setAttendee(idAttendee);
+        setType(type);
+	}
+
+    public TicketInsertDeletelDTO(Ticket ticket) {
+        setAttendee(ticket.getAttendee().getId());
+        setType(ticket.getType().toString());
+    }
+
+
+    public String getType() {
         return type;
     }
-    public void setType(TicketType type) {
+    public void setType(String type) {
         this.type = type;
     }
-    public Instant getDate() {
-        return date;
-    }
-    public void setDate(Instant date) {
-        this.date = date;
-    }
-    public Double getPrice() {
-        return price;
-    }
-    public void setPrice(Double price) {
-        this.price = price;
+    public Long getAttendee() {
+        return idAttendee;
     }
 
-
-    public Event getEvent() {
-        return event;
-    }
-
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-    
-
-    public Attendee getAttendee() {
-        return attendee;
-    }
-
-
-    public void setAttendee(Attendee attendee) {
-        this.attendee = attendee;
+    public void setAttendee(Long idAttendee) {
+        this.idAttendee = idAttendee;
     }
 }

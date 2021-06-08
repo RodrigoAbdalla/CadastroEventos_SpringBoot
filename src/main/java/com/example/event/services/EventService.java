@@ -13,14 +13,20 @@ import javax.persistence.EntityNotFoundException;
 
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
+import com.example.event.dto.EventTicketDTO;
 import com.example.event.dto.EventUpdateDTO;
 import com.example.event.dto.TicketInsertDeletelDTO;
 import com.example.event.dto.TicketsDTO;
+import com.example.event.entities.Attendee;
 import com.example.event.entities.Event;
 import com.example.event.entities.Place;
+import com.example.event.entities.Ticket;
+import com.example.event.entities.TicketType;
 import com.example.event.repositories.AdminRepository;
+import com.example.event.repositories.AttendeeRepository;
 import com.example.event.repositories.EventRepository;
 import com.example.event.repositories.PlaceRepository;
+import com.example.event.repositories.TicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,6 +47,11 @@ public class EventService {
     @Autowired
     private EventRepository repo;
 
+    @Autowired 
+    private TicketRepository ticketRepository;
+
+    @Autowired 
+    private AttendeeRepository attendeeRepository;
 
     @Autowired
     private AdminRepository adminRepository;
@@ -274,16 +285,130 @@ public class EventService {
     }
 
 
-    public List<TicketsDTO> getTicketsByEvent(Long id) {
-        return null;
+    public EventTicketDTO getTicketsByEvent(Long id) {
+        // Coleta o Evento solicitado
+        Optional<Event> op = repo.findById(id);
+        Event event = op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
+
+        // Coleta todos os tickets pertencentes ao Evento solicitado
+        List<Ticket> listTicket = ticketRepository.findByEvent(id);                 
+
+        // Coleta a quantidade de tickets vendidos, por tipo.
+        Long amountFreeTicketsSold = Long.valueOf(ticketRepository.findFreeTicketsSold(id).size());
+        Long amountPayedTicketsSold = Long.valueOf(ticketRepository.findPayedTicketsSold(id).size());
+
+        // Transforma a lista de tickets no DTO desejado
+        List<TicketsDTO> listTicketsDTO = new ArrayList<>();
+        for (Ticket ticket : listTicket) {
+            listTicketsDTO.add(new TicketsDTO(ticket));
+        }
+
+        // Retorna o DTO do evento 
+        return new EventTicketDTO(event, amountPayedTicketsSold, amountFreeTicketsSold, listTicketsDTO);
     }
 
 
     public void removeTicket(Long id, TicketInsertDeletelDTO deleteTicket) {
+        // Coleta o Evento solicitado
+        Optional<Event> op = repo.findById(id);
+        Event event = op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
+
+        // Verficação de dados
+        if( 
+            
+            deleteTicket.getAttendee()  == null    || 
+            deleteTicket.getType() == null
+        ){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
+        }
+        else if(     
+            deleteTicket.getType().toUpperCase().compareTo("FREE") != 0 &&
+            deleteTicket.getType().toUpperCase().compareTo("PAYED") != 0
+        ){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Ticket Type can only be 'FREE' OR 'PAYED'");
+        }
+
+        // Coleta o Attendee solicitado
+        Optional<Attendee> opAttende = attendeeRepository.findById(deleteTicket.getAttendee());
+        Attendee attendee = opAttende.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendee not found"));
+        List<Ticket> listTickets = new ArrayList<>();
+
+
+        // Procura no Banco de dados algum ticket com a especificação (só tem como retornar 0 ou 1, pois no insertTicket não é permitido o mesmo ticket para o mesmo attendee/evento)
+        // Faz as mudanças necessárias (Adiciona balance, aumenta a quantidade de tickets disponíveis, etc)
+        try {
+            if(deleteTicket.getType().toUpperCase().compareTo("FREE") == 0){
+                listTickets = ticketRepository.findTickets(id, deleteTicket.getAttendee(), TicketType.FREE);
+                event.setAmountFreeTickets(event.getAmountFreeTickets() + 1);
+            }
+            else{
+                listTickets = ticketRepository.findTickets(id, deleteTicket.getAttendee(), TicketType.PAYED);
+                event.setAmountPayedTickets(event.getAmountPayedTickets() + 1);
+                attendee.setBalance(attendee.getBalance() + listTickets.get(0).getPrice());
+            }
+            ticketRepository.deleteById(listTickets.get(0).getId());
+        } 
+        catch (IndexOutOfBoundsException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "None ticket were found with this especifications");
+        }
+        
+        //Atualiza as entidades que foram mudadas. 
+        attendeeRepository.save(attendee);
+        repo.save(event);
+
+
     }
 
 
     public void addTicketToEvent(Long id, TicketInsertDeletelDTO insertTicket) {
+        // Coleta o Evento solicitado
+        Optional<Event> op = repo.findById(id);
+        Event event = op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
+
+        // Verficação de dados
+        if( 
+            
+            insertTicket.getAttendee()  == null    || 
+            insertTicket.getType() == null
+        ){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
+        }
+        else if(     
+            insertTicket.getType().toUpperCase().compareTo("FREE") != 0 &&
+            insertTicket.getType().toUpperCase().compareTo("PAYED") != 0
+        ){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Ticket Type can only be 'FREE' OR 'PAYED'");
+        }
+
+        // Verifica se é possível vender.
+        if(insertTicket.getType().toUpperCase().compareTo("FREE") == 0 && event.getAmountFreeTickets() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Event has no free tickets avaiable");
+        }
+        if(insertTicket.getType().toUpperCase().compareTo("PAYED") == 0 && event.getAmountPayedTickets() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Event has no payed tickets avaiable");
+        }
+
+        // Coleta o Attendee solicitado
+        Optional<Attendee> opAttende = attendeeRepository.findById(insertTicket.getAttendee());
+        Attendee attendee = opAttende.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendee not found"));
+
+        // Diminui a quantidade de ticket disponivel no evento
+        if(insertTicket.getType().toUpperCase().compareTo("FREE") == 0){
+            event.setAmountFreeTickets(event.getAmountFreeTickets() - 1);
+        }
+        else{
+            event.setAmountPayedTickets(event.getAmountPayedTickets() - 1);
+            // Caso o attendee possua um balance maior ou igual ao valor do ingresso, o valor do ingresso é descontado dele
+            // Caso contrário, nada muda, pois é considerado que houve pagamento por fora.
+            if(attendee.getBalance() >= event.getPriceTicket()){
+                attendee.setBalance(attendee.getBalance() - event.getPriceTicket());
+            }
+        }
+
+        Ticket ticket = new Ticket(insertTicket, attendee, event);
+        ticketRepository.save(ticket);
+        repo.save(event);
+        attendeeRepository.save(attendee);
     }
 
 }
