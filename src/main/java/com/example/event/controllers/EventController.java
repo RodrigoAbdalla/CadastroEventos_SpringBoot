@@ -1,10 +1,13 @@
 package com.example.event.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
 import com.example.event.dto.EventUpdateDTO;
+import com.example.event.dto.TicketInsertDeletelDTO;
+import com.example.event.dto.TicketsDTO;
 import com.example.event.services.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,4 +89,23 @@ public class EventController {
 		return ResponseEntity.noContent().build();      
 	}
 
+    @GetMapping("{id}/tickets")
+    public ResponseEntity<List<TicketsDTO>> getTicketsByEvent(@PathVariable Long id){
+        List<TicketsDTO> listTickets = service.getTicketsByEvent(id);
+        return ResponseEntity.ok().body(listTickets);
+    }
+
+
+    @DeleteMapping("{id}/tickets")
+	public ResponseEntity<Void> removeTicket(@PathVariable Long id, @RequestBody TicketInsertDeletelDTO deleteTicket){
+		service.removeTicket(id, deleteTicket); 
+		return ResponseEntity.noContent().build();      
+	}
+
+
+    @PostMapping("{id}/tickets")
+	public ResponseEntity<Void> addTicketToEvent(@PathVariable Long id, @RequestBody TicketInsertDeletelDTO insertTicket){
+		service.addTicketToEvent(id, insertTicket); 
+		return ResponseEntity.noContent().build();      
+	}
 }

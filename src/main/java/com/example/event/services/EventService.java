@@ -14,6 +14,8 @@ import javax.persistence.EntityNotFoundException;
 import com.example.event.dto.EventDTO;
 import com.example.event.dto.EventInsertDTO;
 import com.example.event.dto.EventUpdateDTO;
+import com.example.event.dto.TicketInsertDeletelDTO;
+import com.example.event.dto.TicketsDTO;
 import com.example.event.entities.Event;
 import com.example.event.entities.Place;
 import com.example.event.repositories.AdminRepository;
@@ -269,6 +271,19 @@ public class EventService {
         // Remove a conexão do evento e lugar
         event.removePlace(place);
         repo.save(event);
+    }
+
+
+    public List<TicketsDTO> getTicketsByEvent(Long id) {
+        return null;
+    }
+
+
+    public void removeTicket(Long id, TicketInsertDeletelDTO deleteTicket) {
+    }
+
+
+    public void addTicketToEvent(Long id, TicketInsertDeletelDTO insertTicket) {
     }
 
 }
