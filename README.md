@@ -10,7 +10,10 @@ Rodrigo Abdalla Ramos da Silva	 - 190214
 joão Victor Timo Angelotti Pinto - 190826 
 
 
---
+-------------------------------------------------------------
+
+*** POST ***
+
 Post - Places
 {
             "name": "Morumbi",
@@ -36,8 +39,7 @@ Post - Events
 Post - Attendees
 {
             "name": "Roberto Sebastião da Silva",
-            "email": "roberto_sebastiao@outlook.com",
-            "balance": 0.0
+            "email": "roberto_sebastiao@outlook.com"
 }
 
 
@@ -48,8 +50,14 @@ Post -  Admins
             "phoneNumber": "(15)98156-7870"
 }
 
+Post - /events/{id}/tickets 
+{
+            "type": "Payed",
+            "idAttendee": 7
+}
+-----------------------------------------------------------
 
---------
+***PUT***
 
 Put - Events
 {
@@ -80,4 +88,15 @@ Put -  Admins
             "name": "Teste",
             "email": "rodrigo_abdalla@outlook.com",
             "phoneNumber": "(15)98156-7870"
+}
+
+
+-----------------------------
+***DELETE***
+
+
+Delete - /events/{id}/tickets 
+{
+            "type": "payed",
+            "idAttendee": 7
 }

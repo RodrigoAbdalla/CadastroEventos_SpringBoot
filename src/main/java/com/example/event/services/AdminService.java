@@ -10,8 +10,10 @@ import com.example.event.dto.AdminDTO;
 import com.example.event.dto.AdminInsertDTO;
 import com.example.event.dto.AdminUpdateDTO;
 import com.example.event.entities.Admin;
+import com.example.event.entities.Attendee;
 import com.example.event.entities.Event;
 import com.example.event.repositories.AdminRepository;
+import com.example.event.repositories.AttendeeRepository;
 import com.example.event.repositories.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class AdminService {
 
     @Autowired
     private AdminRepository repo;
+
+    @Autowired
+    private AttendeeRepository attendeeRepository;
+
 
     @Autowired
     private EventRepository eventRepository;
@@ -57,6 +63,20 @@ public class AdminService {
         ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
         }
+
+        // Verificação se o email já esta sendo usado, tanto pelos attendees quanto pelos admins
+        List<Admin> admins = repo.findAll();
+        for (Admin admin : admins) {
+            if(admin.getEmail().compareTo(insertDTO.getEmail()) == 0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+            }
+        }
+        List<Attendee> attendees = attendeeRepository.findAll();
+        for (Attendee attendee : attendees) {
+            if(attendee.getEmail().compareTo(insertDTO.getEmail()) == 0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+            }
+        }
         
         Admin entity = new Admin(insertDTO);
         entity = repo.save(entity);
@@ -80,6 +100,21 @@ public class AdminService {
 
     public AdminDTO update(Long id, AdminUpdateDTO updateDTO) {
         try {
+
+            // Verificação se o email já esta sendo usado, tanto pelos attendees quanto pelos admins
+            List<Admin> admins = repo.findAll();
+            for (Admin admin : admins) {
+                if(admin.getEmail().compareTo(updateDTO.getEmail()) == 0){
+                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+                }
+            }
+            List<Attendee> attendees = attendeeRepository.findAll();
+            for (Attendee attendee : attendees) {
+                if(attendee.getEmail().compareTo(updateDTO.getEmail()) == 0){
+                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+                }
+            }
+
             Admin entity = repo.getOne(id);
             entity.setName(updateDTO.getName());
             entity.setEmail(updateDTO.getEmail());

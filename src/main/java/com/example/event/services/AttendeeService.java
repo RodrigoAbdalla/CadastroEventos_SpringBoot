@@ -9,8 +9,10 @@ import javax.persistence.EntityNotFoundException;
 import com.example.event.dto.AttendeeDTO;
 import com.example.event.dto.AttendeeInsertDTO;
 import com.example.event.dto.AttendeeUpdateDTO;
+import com.example.event.entities.Admin;
 import com.example.event.entities.Attendee;
 import com.example.event.entities.Ticket;
+import com.example.event.repositories.AdminRepository;
 import com.example.event.repositories.AttendeeRepository;
 import com.example.event.repositories.TicketRepository;
 
@@ -28,6 +30,10 @@ public class AttendeeService {
 
     @Autowired
     private AttendeeRepository repo;
+
+    @Autowired
+    private AdminRepository adminRepository;
+
 
     @Autowired
     private TicketRepository ticketRepository;
@@ -51,11 +57,23 @@ public class AttendeeService {
             insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
             insertDTO.getEmail()        == ""    || 
             insertDTO.getName()         == null  || 
-            insertDTO.getEmail()        == null  || 
-            insertDTO.getBalance()      == null
+            insertDTO.getEmail()        == null
             
         ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
+        }
+        // Verificação se o email já esta sendo usado, tanto pelos attendees quanto pelos admins
+        List<Admin> admins = adminRepository.findAll();
+        for (Admin admin : admins) {
+            if(admin.getEmail().compareTo(insertDTO.getEmail()) == 0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+            }
+        }
+        List<Attendee> attendees = repo.findAll();
+        for (Attendee attendee : attendees) {
+            if(attendee.getEmail().compareTo(insertDTO.getEmail()) == 0){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+            }
         }
         
         Attendee entity = new Attendee(insertDTO);
@@ -81,6 +99,21 @@ public class AttendeeService {
 
     public AttendeeDTO update(Long id, AttendeeUpdateDTO updateDTO) {
         try {
+
+            // Verificação se o email já esta sendo usado, tanto pelos attendees quanto pelos admins
+            List<Admin> admins = adminRepository.findAll();
+            for (Admin admin : admins) {
+                if(admin.getEmail().compareTo(updateDTO.getEmail()) == 0){
+                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+                }
+            }
+            List<Attendee> attendees = repo.findAll();
+            for (Attendee attendee : attendees) {
+                if(attendee.getEmail().compareTo(updateDTO.getEmail()) == 0){
+                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
+                }
+            }
+
             Attendee entity = repo.getOne(id);
             entity.setName(updateDTO.getName());
             entity.setEmail(updateDTO.getEmail());

@@ -106,13 +106,18 @@ public class EventService {
         ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
         }
+        // Logica para nao aceitar que a data final seja maior que a data inicial
         else if(
-            insertDTO.getStartDate().isAfter(insertDTO.getEndDate()) ||         // Logica para nao aceitar que a data final seja maior que a data inicial
+            insertDTO.getStartDate().isAfter(insertDTO.getEndDate()) ||         
                 ((insertDTO.getStartDate().isEqual(insertDTO.getEndDate())) 
                 && 
                 (insertDTO.getStartTime().isAfter(insertDTO.getEndTime())))
             ){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An event cannot start after the end");
+        }
+        // Logica para nao aceitar que eventos no passado sejam adicionados
+        else if(insertDTO.getEndDate().isBefore(LocalDateTime.now().toLocalDate()) || (insertDTO.getEndDate().isEqual(LocalDateTime.now().toLocalDate()) && insertDTO.getEndTime().isBefore(LocalDateTime.now().toLocalTime()))){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't add an event that is over");
         }  
         try {
             Event entity = new Event(insertDTO);
@@ -128,6 +133,10 @@ public class EventService {
 
     public void delete(Long id) {
         try {
+            Event entity = repo.findById(id).get();
+            if((entity.getStartDate().isBefore(LocalDate.now()) || entity.getStartDate().isEqual(LocalDate.now())) & (entity.getEndDate().isAfter(LocalDate.now()) || (entity.getEndDate().isEqual(LocalDate.now()) & entity.getEndTime().compareTo(LocalTime.now()) != -1 )))
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The event is already happening, delete is not avaiable");
+    
             repo.deleteById(id);
         } 
         catch (EmptyResultDataAccessException e) {
@@ -136,9 +145,9 @@ public class EventService {
         // Tratamento para caso o evento já possua um lugar cadastrado, 
         // neste caso, só é possivel excluindo todas as associações primeiro, com o DELETE /events/{id}/places/{id} (Disponível apenas na AF)
         catch(DataIntegrityViolationException e){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Event has a Place. To remove an event, you need to first delete the associated places.");
-
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The event has associations, please be sure that all places associations are removed and none tickets sold");
         }
+        
     }
 
     public EventDTO update(Long id, EventUpdateDTO updateDTO) {
@@ -157,8 +166,9 @@ public class EventService {
             ){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
             }
+            // Logica para nao aceitar que a data final seja maior que a data inicial
             else if(
-                updateDTO.getStartDate().isAfter(updateDTO.getEndDate()) ||         // Logica para nao aceitar que a data final seja maior que a data inicial
+                updateDTO.getStartDate().isAfter(updateDTO.getEndDate()) ||         
                 ((updateDTO.getStartDate().isEqual(updateDTO.getEndDate())) 
                 && 
                 (updateDTO.getStartTime().isAfter(updateDTO.getEndTime())))
@@ -170,11 +180,13 @@ public class EventService {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You cannot change the start date to before today");
             }
 
+            // Logica para não aceitar mudanças para eventos que já terminaram ou que estão em andamento
             Event entity = repo.getOne(id);
             if(entity.getEndDate().isBefore(LocalDateTime.now().toLocalDate()) || (entity.getEndDate().isEqual(LocalDateTime.now().toLocalDate()) && entity.getEndTime().isBefore(LocalDateTime.now().toLocalTime()))){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The event is over, update is not avaiable");
             }
-            
+            else if((entity.getStartDate().isBefore(LocalDate.now()) || entity.getStartDate().isEqual(LocalDate.now())) & (entity.getEndDate().isAfter(LocalDate.now()) || (entity.getEndDate().isEqual(LocalDate.now()) & entity.getEndTime().compareTo(LocalTime.now()) != -1 )))
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "The event is already happening, update is not avaiable");
         
             
             entity.setName(updateDTO.getName());
@@ -189,7 +201,6 @@ public class EventService {
         } 
         catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
-            
         }
     }
 
@@ -253,6 +264,12 @@ public class EventService {
             ){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An Event will happen in the same place at the same time");
             }
+            if((event.getStartDate().isBefore(LocalDate.now()) || event.getStartDate().isEqual(LocalDate.now())) & (event.getEndDate().isAfter(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) & event.getEndTime().compareTo(LocalTime.now()) != -1 )))
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't add a place to an event that is already happening");
+            else if(event.getEndDate().isBefore(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) && event.getEndTime().isBefore(LocalTime.now()))){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't add a place to an event that is over");
+            }
+            
         }
         event.addPlace(place);
         repo.save(event);
@@ -275,10 +292,12 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This event has no link with this place.");
         
         
-        // Verificação para não permitir que um lugar seja excluído do evento se o evento já tiver começado.
+        // Verificação para não permitir que um lugar seja excluído do evento se o evento já tiver começado ou ja tiver acabado.
         if((event.getStartDate().isBefore(LocalDate.now()) || event.getStartDate().isEqual(LocalDate.now())) & (event.getEndDate().isAfter(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) & event.getEndTime().compareTo(LocalTime.now()) != -1 )))
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can`t change de place of a event that is already happening");
-
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't change the place of a event that is already happening");
+        else if(event.getEndDate().isBefore(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) && event.getEndTime().isBefore(LocalTime.now()))){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't change the place of an event that is over");
+        }
         // Remove a conexão do evento e lugar
         event.removePlace(place);
         repo.save(event);
@@ -328,6 +347,13 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Ticket Type can only be 'FREE' OR 'PAYED'");
         }
 
+        // Verificação se o Evento já está ocorrendo ou é passado
+        if((event.getStartDate().isBefore(LocalDate.now()) || event.getStartDate().isEqual(LocalDate.now())) & (event.getEndDate().isAfter(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) & event.getEndTime().compareTo(LocalTime.now()) != -1 )))
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't refund a ticket of an event that is already running");
+        else if(event.getEndDate().isBefore(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) && event.getEndTime().isBefore(LocalTime.now()))){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't refund a ticket of an event that is over");
+        }
+
         // Coleta o Attendee solicitado
         Optional<Attendee> opAttende = attendeeRepository.findById(deleteTicket.getAttendee());
         Attendee attendee = opAttende.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendee not found"));
@@ -365,6 +391,11 @@ public class EventService {
         Optional<Event> op = repo.findById(id);
         Event event = op.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
 
+        // Verificação se o evento já acabou.
+        if(event.getEndDate().isBefore(LocalDate.now()) || (event.getEndDate().isEqual(LocalDate.now()) && event.getEndTime().isBefore(LocalTime.now()))){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't sell a ticket of an event that is over");
+        }
+
         // Verficação de dados
         if( 
             
@@ -388,9 +419,25 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This Event has no payed tickets avaiable");
         }
 
+        
+
+
         // Coleta o Attendee solicitado
         Optional<Attendee> opAttende = attendeeRepository.findById(insertTicket.getAttendee());
         Attendee attendee = opAttende.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendee not found"));
+
+        // Verifica se o Attendee já possui um ingresso do mesmo evento e mesmo tipo
+        List<Ticket> listTicket = ticketRepository.findByAttendee(insertTicket.getAttendee());
+        System.out.println(listTicket);
+        
+        for (Ticket ticket : listTicket) {
+            System.out.println(ticket.getType().toString().compareTo(insertTicket.getType()) == 0);
+            System.out.println(ticket.getType().toString());
+            System.out.println(insertTicket.getType());
+            if(ticket.getType().toString().compareTo(insertTicket.getType().toUpperCase()) == 0  && ticket.getEvent().getId() == id){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "An Attendee can not have two identical tickets (The same event and type)");
+            }
+        }
 
         // Diminui a quantidade de ticket disponivel no evento
         if(insertTicket.getType().toUpperCase().compareTo("FREE") == 0){
@@ -398,12 +445,8 @@ public class EventService {
         }
         else{
             event.setAmountPayedTickets(event.getAmountPayedTickets() - 1);
-            // Caso o attendee possua um balance maior ou igual ao valor do ingresso, o valor do ingresso é descontado dele
-            // Caso contrário, nada muda, pois é considerado que houve pagamento por fora.
-            if(attendee.getBalance() >= event.getPriceTicket()){
-                attendee.setBalance(attendee.getBalance() - event.getPriceTicket());
-            }
         }
+
 
         Ticket ticket = new Ticket(insertTicket, attendee, event);
         ticketRepository.save(ticket);

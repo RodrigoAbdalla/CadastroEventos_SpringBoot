@@ -28,7 +28,7 @@ public class Attendee extends BaseUser{
 
     public Attendee(AttendeeInsertDTO insertDTO) {
         super(insertDTO.getEmail(), insertDTO.getName());
-        this.balance = insertDTO.getBalance();
+        this.balance = 0.0;
     }
     
     

@@ -75,84 +75,131 @@ public class Runner implements CommandLineRunner{
         Event e1 = new Event();
         e1 = eventRepository.findById(1L).get();
         e1.setAmountFreeTickets(e1.getAmountFreeTickets() - 1);
-
-        t1.setEvent(eventRepository.findById(1L).get());
+        t1.setDate(Instant.now());
+        t1.setEvent(e1);
         t1.setAttendee(attendeeRepository.findById(4L).get());
         t1.setPrice(0.0);
         t1.setType(TicketType.FREE);
         ticketRepository.save(t1);
         eventRepository.save(e1);
         
+
+        Event e2 = new Event();
+        e2 = eventRepository.findById(1L).get();
+        e2.setAmountFreeTickets(e2.getAmountFreeTickets() - 1);
+
         Ticket t2 = new Ticket();
         t2.setDate(Instant.now());
-        t2.setEvent(eventRepository.findById(1L).get());
+        t2.setEvent(e2);
         t2.setAttendee(attendeeRepository.findById(5L).get());
-        t2.setPrice(100.0);
+        t2.setPrice(e2.getPriceTicket());
         t2.setType(TicketType.PAYED);
         ticketRepository.save(t2);
+        eventRepository.save(e2);
+           
 
+        Event e3 = new Event();
+        e3 = eventRepository.findById(1L).get();
+        e3.setAmountFreeTickets(e3.getAmountFreeTickets() - 1);
 
         Ticket t3 = new Ticket();
         t3.setDate(Instant.now());
-        t3.setEvent(eventRepository.findById(1L).get());
+        t3.setEvent(e3);
         t3.setAttendee(attendeeRepository.findById(6L).get());
-        t3.setPrice(100.0);
+        t3.setPrice(e3.getPriceTicket());
         t3.setType(TicketType.PAYED);
         ticketRepository.save(t3);
+        eventRepository.save(e3);
+           
 
+
+        Event e4 = new Event();
+        e4 = eventRepository.findById(2L).get();
+        e4.setAmountFreeTickets(e4.getAmountFreeTickets() - 1);
 
         Ticket t4 = new Ticket();
         t4.setDate(Instant.now());
-        t4.setEvent(eventRepository.findById(2L).get());
+        t4.setEvent(e4);
         t4.setAttendee(attendeeRepository.findById(4L).get());
-        t4.setPrice(0.0);
-        t4.setType(TicketType.FREE);
+        t4.setPrice(e4.getPriceTicket());
+        t4.setType(TicketType.PAYED);
         ticketRepository.save(t4);
+        eventRepository.save(e4);
+           
 
+
+        Event e5 = new Event();
+        e5 = eventRepository.findById(2L).get();
+        e5.setAmountFreeTickets(e5.getAmountFreeTickets() - 1);
 
         Ticket t5 = new Ticket();
         t5.setDate(Instant.now());
-        t5.setEvent(eventRepository.findById(2L).get());
+        t5.setEvent(e5);
         t5.setAttendee(attendeeRepository.findById(5L).get());
-        t5.setPrice(50.0);
+        t5.setPrice(e5.getPriceTicket());
         t5.setType(TicketType.PAYED);
         ticketRepository.save(t5);
+        eventRepository.save(e5);
 
+
+        Event e6 = new Event();
+        e6 = eventRepository.findById(2L).get();
+        e6.setAmountFreeTickets(e6.getAmountFreeTickets() - 1);
 
         Ticket t6 = new Ticket();
         t6.setDate(Instant.now());
-        t6.setEvent(eventRepository.findById(2L).get());
+        t6.setEvent(e6);
         t6.setAttendee(attendeeRepository.findById(6L).get());
-        t6.setPrice(50.0);
+        t6.setPrice(e6.getPriceTicket());
         t6.setType(TicketType.PAYED);
         ticketRepository.save(t6);
+        eventRepository.save(e6);
 
+
+
+        Event e7 = new Event();
+        e7 = eventRepository.findById(3L).get();
+        e7.setAmountFreeTickets(e7.getAmountFreeTickets() - 1);
 
         Ticket t7 = new Ticket();
         t7.setDate(Instant.now());
-        t7.setEvent(eventRepository.findById(3L).get());
+        t7.setEvent(e7);
         t7.setAttendee(attendeeRepository.findById(4L).get());
-        t7.setPrice(0.0);
-        t7.setType(TicketType.FREE);
+        t7.setPrice(e7.getPriceTicket());
+        t7.setType(TicketType.PAYED);
         ticketRepository.save(t7);
+        eventRepository.save(e7);
 
+
+        Event e8 = new Event();
+        e8 = eventRepository.findById(3L).get();
+        e8.setAmountFreeTickets(e8.getAmountFreeTickets() - 1);
 
         Ticket t8 = new Ticket();
         t8.setDate(Instant.now());
-        t8.setEvent(eventRepository.findById(3L).get());
+        t8.setEvent(e8);
         t8.setAttendee(attendeeRepository.findById(5L).get());
-        t8.setPrice(1000.0);
+        t8.setPrice(e8.getPriceTicket());
         t8.setType(TicketType.PAYED);
         ticketRepository.save(t8);
+        eventRepository.save(e8);
 
+
+
+        Event e9 = new Event();
+        e9 = eventRepository.findById(3L).get();
+        e9.setAmountFreeTickets(e9.getAmountFreeTickets() - 1);
 
         Ticket t9 = new Ticket();
         t9.setDate(Instant.now());
-        t9.setEvent(eventRepository.findById(3L).get());
-        t9.setAttendee(attendeeRepository.findById(6L).get());
-        t9.setPrice(1000.0);
+        t9.setEvent(e9);
+        t9.setAttendee(attendeeRepository.findById(5L).get());
+        t9.setPrice(e9.getPriceTicket());
         t9.setType(TicketType.PAYED);
         ticketRepository.save(t9);
+        eventRepository.save(e9);
+
+        
     }
 
 
@@ -301,7 +348,7 @@ public class Runner implements CommandLineRunner{
         a1.setName("Roberto Sebastião da Silva");
 
         Attendee a2 = new Attendee();
-        a2.setBalance(100.0);
+        a2.setBalance(0.0);
         a2.setEmail("ninjasupremo1243@gmail.com");
         a2.setName("Betinho Marcelo");
 
