@@ -64,6 +64,10 @@ public class AdminService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill in all the required fields");
         }
 
+        if(!insertDTO.getEmail().contains("@") || !insertDTO.getEmail().contains(".com")){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill a valid email.");
+        }
+
         // Verificação se o email já esta sendo usado, tanto pelos attendees quanto pelos admins
         List<Admin> admins = repo.findAll();
         for (Admin admin : admins) {
