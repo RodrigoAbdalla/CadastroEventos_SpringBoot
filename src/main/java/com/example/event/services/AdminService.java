@@ -105,6 +105,9 @@ public class AdminService {
     public AdminDTO update(Long id, AdminUpdateDTO updateDTO) {
         try {
 
+            if(!updateDTO.getEmail().contains("@") || !updateDTO.getEmail().contains(".com")){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill a valid email.");
+            }
             // Verificação se o email já esta sendo usado, tanto pelos attendees quanto pelos admins
             List<Admin> admins = repo.findAll();
             for (Admin admin : admins) {
@@ -118,6 +121,8 @@ public class AdminService {
                     throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "This emails is already in use. Please choose another one.");
                 }
             }
+
+
 
             Admin entity = repo.getOne(id);
             entity.setName(updateDTO.getName());
