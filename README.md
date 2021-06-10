@@ -1,4 +1,4 @@
-# ProjetoLab-AC1-Individual
+# ProjetoLab-AF
 
 LINK HEROKU: https://poo-facens-2021-s1.herokuapp.com/
 
@@ -7,7 +7,7 @@ INTEGRANTES:
 
 Rodrigo Abdalla Ramos da Silva	 - 190214 
 
-joão Victor Timo Angelotti Pinto - 190826 
+João Victor Timo Angelotti Pinto - 190826 
 
 
 -------------------------------------------------------------
