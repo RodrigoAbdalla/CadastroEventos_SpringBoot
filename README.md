@@ -1,12 +1,12 @@
-## Este projeto foi desenvolvido para entrega final da matéria de programação orientada a objetos II, na FACENS.
+# Este projeto foi desenvolvido para entrega final da matéria de programação orientada a objetos II, na FACENS.
 
-# Link no Heroku: https://poo-facens-2021-s1.herokuapp.com/
+## Link no Heroku: https://poo-facens-2021-s1.herokuapp.com/
 
-# Modelo Conceitual do projeto:
+## Modelo Conceitual do projeto:
 
 ![ModeloConceitual](https://github.com/RodrigoAbdalla/ProjetoLab-AC1-Individual/blob/main/ModeloConceitual.png)
 
-Enunciado do Projeto:
+#Enunciado do Projeto:
 
 Desenvolver um sistema para controlar eventos.
 
@@ -20,7 +20,7 @@ Existem dois tipos de ingressos: Pago e Gratuito. Um ingresso pago deverá ter o
 
 ---------------------------------------------------------------
 
-Base das Rotas do Sistema:
+## Base das Rotas do Sistema:
 
 ---
 
@@ -38,7 +38,7 @@ GET, POST, DELETE e PUT
 
 Manutenção de usuários participantes.
 
-----------
+---
 
 GET, POST, DELETE e PUT
 
@@ -46,7 +46,7 @@ GET, POST, DELETE e PUT
 
 Manutenção de local de eventos.
 
----------------
+---
 
 GET, POST, DELETE e PUT
 
@@ -68,7 +68,7 @@ Validar evento e local.
 
 Validar disponibilidade.
 
-------------
+---
 
 GET
 
@@ -78,7 +78,7 @@ Devolve a lista de ingressos de um evento, tendo o tipo do ingresso e nome dos p
 
 Devolve o total de ingressos pagos, total de ingressos gratuitos, total de ingressos pagos já vendidos, total de ingressos gratuitos já vendidos.
 
-------
+---
 
 POST e DELETE
 
@@ -94,11 +94,11 @@ Na devolução de um ingresso pago, criar saldo para o participante.
 
 Validar se é possível fazer a venda.
 
------
+---
 
-Abaixo segue exemplos de JSON para colocar no Postman:
+## Abaixo segue exemplos de JSON para colocar no Postman:
  
-*** POST ***
+### POST 
 
 Post - Places
 {
@@ -143,7 +143,7 @@ Post - /events/{id}/tickets
 }
 -----------------------------------------------------------
 
-***PUT***
+### PUT
 
 Put - Events
 {
@@ -178,7 +178,7 @@ Put -  Admins
 
 
 -----------------------------
-***DELETE***
+### DELETE
 
 Delete - /events/{id}/tickets 
 {
