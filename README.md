@@ -6,7 +6,7 @@
 
 ![ModeloConceitual](https://github.com/RodrigoAbdalla/ProjetoLab-AC1-Individual/blob/main/ModeloConceitual.png)
 
-#Enunciado do Projeto:
+## Enunciado do Projeto:
 
 Desenvolver um sistema para controlar eventos.
 
