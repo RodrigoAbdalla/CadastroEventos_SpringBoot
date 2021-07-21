@@ -23,9 +23,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+// Esta classe é usada para preencher o banco de dados com dados, para facilitar nos testes.
 
 @Service
 public class Runner implements CommandLineRunner{
+
+    
 
     @Autowired
     private AdminRepository adminRepository;
@@ -62,18 +65,14 @@ public class Runner implements CommandLineRunner{
     }
 
 
-
-
-
-
-
     private void createTickets() {
         Ticket t1 = new Ticket();
         t1.setDate(Instant.now());
 
-        // Tira 1 na quantidade de tickets free disponiveis 
+        
         Event e1 = new Event();
         e1 = eventRepository.findById(1L).get();
+        // Tira 1 na quantidade de tickets free disponiveis 
         e1.setAmountFreeTickets(e1.getAmountFreeTickets() - 1);
         t1.setDate(Instant.now());
         t1.setEvent(e1);

@@ -27,11 +27,8 @@ public class PlaceService{
     private PlaceRepository repo;
 
     public Page<PlaceDTO> getPlaces(PageRequest pageRequest, String name, String adress) {
-
-
         Page<Place> list = repo.find(pageRequest, name, adress);     
         return list.map( e -> new PlaceDTO(e));
-           
     }
 
 
@@ -42,8 +39,10 @@ public class PlaceService{
     }
 
     public PlaceDTO insert(PlaceInsertDTO insertDTO) {
+        
+        // Logica para o programa nao aceitar nomes e endereços vazios / nulos
         if( 
-            insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes e endereços vazios / nulos
+            insertDTO.getName()         == ""    ||                 
             insertDTO.getAdress()       == ""    ||  
             insertDTO.getName()         == null  || 
             insertDTO.getAdress()       == null 

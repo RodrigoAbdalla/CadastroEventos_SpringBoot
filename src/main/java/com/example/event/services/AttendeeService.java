@@ -53,8 +53,10 @@ public class AttendeeService {
     }
 
     public AttendeeDTO insert(AttendeeInsertDTO insertDTO) {
+
+        // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
         if( 
-            insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
+            insertDTO.getName()         == ""    ||                 
             insertDTO.getEmail()        == ""    || 
             insertDTO.getName()         == null  || 
             insertDTO.getEmail()        == null

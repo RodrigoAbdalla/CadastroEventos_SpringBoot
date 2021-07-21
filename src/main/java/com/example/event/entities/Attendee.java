@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.example.event.dto.AttendeeInsertDTO;
 
 @Entity
-@Table(name="TBL_ATTENDEES") //Vai ter tabela para cada entidade???
+@Table(name="TBL_ATTENDEES") 
 @PrimaryKeyJoinColumn(name="ID_BASE_USER")
 public class Attendee extends BaseUser{
     

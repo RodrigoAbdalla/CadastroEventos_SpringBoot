@@ -88,7 +88,4 @@ public class BaseUser implements Serializable{
     }
 
     
-
-    
-    
 }

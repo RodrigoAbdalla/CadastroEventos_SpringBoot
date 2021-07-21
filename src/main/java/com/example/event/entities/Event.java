@@ -22,12 +22,7 @@ import com.example.event.dto.EventInsertDTO;
 @Table(name="TBL_EVENT")
 public class Event implements Serializable{
 
-    /*
-    Dados: id, name, description, startDate, endDate, startTime, endTime, emailContact, amountFreeTickets, amountPayedTickets, 
-    freeTickectsSelled, payedTickectsSelled, priceTicket.
-    Ao criar um evento passar o id do usuário administrador no corpo da resquisição.
-    Validar alteração da data do evento.
-    */ 
+    
     private static final long serialVersionUID = 1L;
 
     @Id

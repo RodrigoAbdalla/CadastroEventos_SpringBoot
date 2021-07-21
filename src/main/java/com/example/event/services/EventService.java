@@ -56,16 +56,23 @@ public class EventService {
     @Autowired
     private AdminRepository adminRepository;
     public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String  startDateString, Double  priceTicket, String place) {
-                                                          // FORMATO DE DATA ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd 
-        if(startDateString.contains("/")){                                  // Logica para trocar os caracteres incorretos, caso nao seja "-"
+
+        // FORMATO DE DATA ACEITO = yyyy-mm-dd  || yyyy/mm/dd  || yyyy.mm.dd 
+
+        // Logica para trocar os caracteres incorretos, caso nao seja "-"
+        if(startDateString.contains("/")){                                  
             startDateString = startDateString.replace("/", "-");
         }
         else if(startDateString.contains(".")){
             startDateString = startDateString.replace(".", "-");
         }
         
-        try{                                                                        // Mapeando o erro para caso o usuario tente colocar uma data nom formato errado
-            LocalDate startDate = LocalDate.parse(startDateString.trim());          // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE 
+
+        // Mapeando o erro para caso o usuario tente colocar uma data nom formato errado
+
+        try{      
+            // TRANSFORMA A STRING RECEBIDA EM UMA VARIAVEL LOCAL DATE                                                                  
+            LocalDate startDate = LocalDate.parse(startDateString.trim());          
             Page<Event> list = repo.find(pageRequest, name, description, startDate, priceTicket, place);
             return list.map( e -> new EventDTO(e));
         }
@@ -86,8 +93,10 @@ public class EventService {
     }
 
     public EventDTO insert(EventInsertDTO insertDTO) {
+        
+        // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
         if( 
-            insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
+            insertDTO.getName()         == ""    ||                 
             insertDTO.getDescription()  == ""    || 
             insertDTO.getName()         == null  || 
             insertDTO.getDescription()  == null  ||
@@ -149,9 +158,9 @@ public class EventService {
 
     public EventDTO update(Long id, EventUpdateDTO updateDTO) {
         try {
-            
+            // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
             if( 
-            updateDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
+            updateDTO.getName()         == ""    ||                 
             updateDTO.getDescription()  == ""    || 
             updateDTO.getName()         == null  || 
             updateDTO.getDescription()  == null  ||
@@ -393,7 +402,7 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You can't sell a ticket of an event that is over");
         }
 
-        // Verficação de dados
+        // Verificação de dados
         if( 
             
             insertTicket.getAttendee()  == null    || 

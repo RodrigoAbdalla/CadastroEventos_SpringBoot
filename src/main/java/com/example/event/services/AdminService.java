@@ -34,7 +34,6 @@ public class AdminService {
     @Autowired
     private AttendeeRepository attendeeRepository;
 
-
     @Autowired
     private EventRepository eventRepository;
 
@@ -52,8 +51,10 @@ public class AdminService {
     }
 
     public AdminDTO insert(AdminInsertDTO insertDTO) {
+        
+        // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
         if( 
-            insertDTO.getName()         == ""    ||                 // Logica para o programa nao aceitar nomes, descrições e nem lugares vazios / nulos
+            insertDTO.getName()         == ""    ||                 
             insertDTO.getEmail()        == ""    || 
             insertDTO.getPhoneNumber()  == ""    || 
             insertDTO.getName()         == null  || 
@@ -90,6 +91,7 @@ public class AdminService {
     public void delete(Long id) {
         try {
             List<Event> event = new ArrayList<>();
+
             //Procura se possui um evento com o admin cadastrado. Caso possua, não será possível realizar o delete, sendo necessário excluir o evento primeiro
             event = eventRepository.findByAdmin(id);
             if(event.size() != 0){
@@ -108,6 +110,7 @@ public class AdminService {
             if(!updateDTO.getEmail().contains("@") || !updateDTO.getEmail().contains(".com")){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Please fill a valid email.");
             }
+            
             // Verificação se o email já esta sendo usado, tanto pelos attendees quanto pelos admins
             List<Admin> admins = repo.findAll();
             for (Admin admin : admins) {
