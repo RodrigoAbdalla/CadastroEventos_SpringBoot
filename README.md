@@ -136,11 +136,13 @@ Post -  Admins
             "phoneNumber": "(15)98156-7870"
 }
 
+
 Post - /events/{id}/tickets 
 {
             "type": "Payed",
             "idAttendee": 7
 }
+
 -----------------------------------------------------------
 
 ### PUT
