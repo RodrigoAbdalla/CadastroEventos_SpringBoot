@@ -2,6 +2,7 @@
 
 LINK HEROKU: https://poo-facens-2021-s1.herokuapp.com/
 
+![ModeloConceitual](https://github.com/RodrigoAbdalla/ProjetoLab-AC1-Individual/blob/main/ModeloConceitual.png)
 
 INTEGRANTES: 
 
