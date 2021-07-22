@@ -1,4 +1,4 @@
-# Este projeto foi desenvolvido para entrega final da matéria de programação orientada a objetos II, na FACENS.
+# Este projeto foi desenvolvido para entrega final da matéria de programação orientada a objetos II, na FACENS, através de uma API REST, criada com o Spring Boot.
 
 ## Link no Heroku: https://poo-facens-2021-s1.herokuapp.com/
 
